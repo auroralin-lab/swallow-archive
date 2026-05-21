@@ -46,7 +46,7 @@ export default async function ReportPage({
   if (md === null) notFound()
 
   return (
-    <main className="report">
+    <main className="report" id="top">
       <nav className="report-nav">
         <Link href="/">← 回到歷史索引</Link>
       </nav>
@@ -57,6 +57,7 @@ export default async function ReportPage({
             {s.label}
           </a>
         ))}
+        <a href="#top" className="toc-top">↑ 頂部</a>
       </nav>
 
       <article className="markdown-body">
