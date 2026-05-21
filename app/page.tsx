@@ -58,9 +58,9 @@ function ReportCard({ report: r }: { report: ReportSummary }) {
         className="group block focus-visible:outline-none"
       >
         <Card className="group-hover:border-primary/60 group-hover:shadow-paper-lifted group-focus-visible:ring-2 group-focus-visible:ring-ring group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background">
-          <CardContent className="p-5 md:p-6">
-            <div className="mb-2 flex items-baseline gap-3">
-              <span className="font-mono text-lg font-semibold text-primary">
+          <CardContent className="p-4 sm:p-5 md:p-6">
+            <div className="mb-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="font-mono text-base font-semibold text-primary sm:text-lg">
                 {r.date}
               </span>
               <span className="text-sm text-muted-foreground">{r.weekday}</span>
@@ -69,7 +69,7 @@ function ReportCard({ report: r }: { report: ReportSummary }) {
               </span>
               <ArrowRight
                 aria-hidden
-                className="ml-auto h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary"
+                className="ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary"
               />
             </div>
 
