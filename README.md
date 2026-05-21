@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# swallow-archive
 
-## Getting Started
+春燕來了每日盤勢摘要的歷史歸檔。Next.js 16 app router + 密碼保護 + 自動部署到 Vercel。
 
-First, run the development server:
+## 本機開發
 
 ```bash
+cp .env.example .env.local
+# 編輯 .env.local 設定 ARCHIVE_PASSWORD
+
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 開 http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 內容如何上線
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+報告由 `mediapost-test\publish.ps1` 推上來。流程：
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+mediapost-test\share\<YYYYMMDD>_<HHMM>_result.md
+    → publish.ps1 copy → swallow-archive\public\data\reports\<date>.md (+ .json)
+    → build_index.py 重建 public\data\reports.json
+    → 顯示 git diff 給你看
+    → 你按 y → git push
+    → GitHub 觸發 Vercel auto-deploy
+```
 
-## Learn More
+## 結構
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/
+├── layout.tsx
+├── page.tsx                  # 著陸頁
+├── login/                    # 密碼登入
+│   ├── page.tsx
+│   └── actions.ts
+├── reports/[date]/page.tsx   # 個別報告
+├── lib/reports.ts            # 讀 public/data 的 helper
+└── globals.css
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+proxy.ts                      # Next.js 16 把 middleware 改名 proxy
+                              # 攔截所有非 /login 路徑、檢查 cookie
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+public/data/                  # 由 publish.ps1 寫入
+├── reports.json              # manifest
+└── reports/
+    ├── <date>.md
+    └── <date>.json
+```
