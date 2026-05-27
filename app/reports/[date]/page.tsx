@@ -46,27 +46,72 @@ function industrySlugFromHeading(text: string): string | null {
   return m ? m[1].trim() : null
 }
 
+type IndustryGroup = { label: string; items: IndustryEntry[] }
+
+// 大類顯示順序 — 固定優先序，未在此清單的歸「其他」放最後
+const INDUSTRY_GROUP_ORDER = ['傳產', '電子上游', '電子中游', '電子下游', '軟體']
+
+function groupIndustries(items: IndustryEntry[]): IndustryGroup[] {
+  // 依 industry name 的「-」之前 prefix 分群；組內保留原 items 的順序（= 春燕提及序）
+  const buckets = new Map<string, IndustryEntry[]>()
+  for (const item of items) {
+    const dashIdx = item.name.indexOf('-')
+    const label = dashIdx > 0 ? item.name.slice(0, dashIdx) : '其他'
+    const arr = buckets.get(label) ?? []
+    arr.push(item)
+    buckets.set(label, arr)
+  }
+  const groups: IndustryGroup[] = []
+  for (const label of INDUSTRY_GROUP_ORDER) {
+    const arr = buckets.get(label)
+    if (arr && arr.length > 0) groups.push({ label, items: arr })
+    buckets.delete(label)
+  }
+  // 剩下未在 GROUP_ORDER 的（含「其他」或未來新類別）放最後
+  for (const [label, arr] of buckets) {
+    if (arr.length > 0) groups.push({ label, items: arr })
+  }
+  return groups
+}
+
 function IndustryChipNav({ items }: { items: IndustryEntry[] }) {
   if (items.length === 0) return null
+  const groups = groupIndustries(items)
   return (
     <nav className="industry-chips" aria-label="跳到產業">
       <p className="industry-chips-hint">
-        依<span className="hint-tier">春燕提及順序</span>排列
+        依產業大類分組、組內按
+        <span className="hint-tier">春燕提及順序</span>
         （只含 <span className="hint-tier">⚡轉強</span>+
         <span className="hint-tier">🌱低階</span> 個股）
       </p>
-      <div className="industry-chips-list">
-        {items.map((i) => (
-          <a
-            key={i.name}
-            href={`#ind-${encodeURIComponent(i.name)}`}
-            className="industry-chip"
-          >
-            <span className="industry-chip-name">{i.name}</span>
-            <span className="industry-chip-count">{i.count}</span>
-          </a>
-        ))}
-      </div>
+      {groups.map((g) => (
+        <div key={g.label} className="industry-group">
+          <h4 className="industry-group-label">
+            {g.label}
+            <span className="industry-group-count">{g.items.length}</span>
+          </h4>
+          <div className="industry-chips-list">
+            {g.items.map((i) => {
+              // 在分組標題已點明大類，chip 內 name 去掉冗餘 prefix
+              const dashIdx = i.name.indexOf('-')
+              const displayName =
+                dashIdx > 0 ? i.name.slice(dashIdx + 1) : i.name
+              return (
+                <a
+                  key={i.name}
+                  href={`#ind-${encodeURIComponent(i.name)}`}
+                  className="industry-chip"
+                  title={i.name}
+                >
+                  <span className="industry-chip-name">{displayName}</span>
+                  <span className="industry-chip-count">{i.count}</span>
+                </a>
+              )
+            })}
+          </div>
+        </div>
+      ))}
     </nav>
   )
 }
