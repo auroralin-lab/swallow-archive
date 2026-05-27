@@ -257,6 +257,150 @@
   margin-bottom: 0;
 }
 
+/* ===== Industry chip nav（「## 個股提及」之後的快速跳轉列）
+   視覺語彙對齊 components/toc.tsx 的 TOC chip 風格（暖紙風）。
+   差異：產業數量多 + 後面帶數字徽章，所以做小一階尺寸、加 count badge。 */
+.industry-chips {
+  margin: 0.6em 0 1.6em;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.industry-chips-hint {
+  margin: 0 0 8px;
+  font-size: 0.78em;
+  color: var(--muted-fg);
+  line-height: 1.4;
+}
+.industry-chips-hint .hint-tier {
+  color: var(--brand-brown);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+.industry-chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.industry-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 11px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.88em;
+  line-height: 1.35;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.08s ease;
+}
+.industry-chip:hover {
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+  border-color: var(--primary);
+  color: var(--primary);
+  text-decoration: none;
+}
+.industry-chip:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.industry-chip:active {
+  transform: translateY(1px);
+}
+.industry-chip-name {
+  color: inherit;
+  font-weight: 600;
+}
+.industry-chip:not(:hover) .industry-chip-name {
+  color: var(--brand-brown);
+}
+.industry-chip-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--primary) 18%, var(--muted));
+  color: var(--brand-brown);
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.industry-chip:hover .industry-chip-count {
+  background: color-mix(in srgb, var(--primary) 28%, var(--muted));
+}
+
+/* h3 是產業錨點，sticky 頂部 toc 不會擋住 */
+.markdown-body h3 {
+  scroll-margin-top: 80px;
+}
+
+/* 「↑ 回到產業列」— 每個產業 table 結尾的 footer link
+   設計成「分隔線 + 居中文字」，視覺上像一個 section 的收尾。 */
+.markdown-body .industry-tail {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 2.2em;
+  padding: 0;
+  color: var(--muted-fg);
+  font-size: 0.84em;
+}
+.markdown-body .industry-tail::before,
+.markdown-body .industry-tail::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.markdown-body .industry-tail a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted-fg);
+  text-decoration: none;
+  font-size: 0.95em;
+  line-height: 1.4;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+.markdown-body .industry-tail a:hover {
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+  border-color: var(--primary);
+  color: var(--primary);
+  text-decoration: none;
+}
+.markdown-body .industry-tail a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* 平滑滾動 + 尊重 reduced motion */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* ===== Mobile (<=640px) typography polish ===== */
 @media (max-width: 640px) {
   .markdown-body h1 {
@@ -269,6 +413,7 @@
   }
   .markdown-body h3 {
     font-size: 1.05em;
+    scroll-margin-top: 64px;
   }
   .markdown-body th,
   .markdown-body td {

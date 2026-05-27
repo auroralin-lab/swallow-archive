@@ -183,10 +183,11 @@
       "mention": "電商平臺族群，今日轉強。",
       "view": "正面",
       "anchor_phrase": "網家今天也漲停板了，美愛快現在也轉強了",
-      "tier": "轉強",
+      "tier": "強勢",
       "original_gemini_name": "美而快",
       "original_gemini_ticker": "",
-      "industry": "軟體-其他"
+      "industry": "軟體-其他",
+      "original_tier_before_signal_override": "轉強"
     },
     {
       "ticker": "",
@@ -316,5 +317,6 @@
     "新手最簡單的操作：看 APP 選股，月K週K日K 都綠的就買，紅了分批賣，按 SOP 做。",
     "重壓單一族群或個股風險大，分散佈局才安全；春燕自己也是分散，只是好的權重高一點。",
     "今天重點：貨櫃航運（萬海再度轉強）、光學鏡頭（多檔轉強含澤米漲停）、電商平臺（網家漲停）、防疫醫材、低軌衛星。"
-  ]
+  ],
+  "generated_at": null
 }

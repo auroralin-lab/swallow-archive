@@ -108,10 +108,11 @@
       "mention": "貨櫃航運族群中尚未轉強的個股，春燕暗示可關注。",
       "view": "正面",
       "anchor_phrase": "那不還還有陽明沒漲嗎?就你就買陽明嘛。",
-      "tier": "低階",
+      "tier": "轉強",
       "original_gemini_name": "陽明",
       "original_gemini_ticker": "",
-      "industry": "傳產-航運"
+      "industry": "傳產-航運",
+      "original_tier_before_signal_override": "低階"
     },
     {
       "ticker": "1476",
@@ -185,10 +186,11 @@
       "mention": "連接線材族群的低階股。",
       "view": "正面",
       "anchor_phrase": "今皓啊,是不是?",
-      "tier": "低階",
+      "tier": "轉強",
       "original_gemini_name": "金號",
       "original_gemini_ticker": "",
-      "industry": "電子上游-連接元件"
+      "industry": "電子上游-連接元件",
+      "original_tier_before_signal_override": "低階"
     },
     {
       "ticker": "6870",
@@ -229,10 +231,11 @@
       "mention": "電機機械族群的個股，之前是低階股，做液壓元件，可能與機器人或工廠相關。",
       "view": "中性",
       "anchor_phrase": "君帆的話之前的低階,因為它是做一壓元件的",
-      "tier": "低階",
+      "tier": "轉強",
       "original_gemini_name": "軍凡",
       "original_gemini_ticker": "",
-      "industry": "傳產-其他"
+      "industry": "傳產-其他",
+      "original_tier_before_signal_override": "低階"
     },
     {
       "ticker": "6680",
@@ -306,10 +309,11 @@
       "mention": "觀光餐旅族群中的個股。",
       "view": "中性",
       "anchor_phrase": "觀光的什麼海灣啊,三商餐旅啊",
-      "tier": "低階",
+      "tier": "轉強",
       "original_gemini_name": "海灣",
       "original_gemini_ticker": "",
-      "industry": "傳產-觀光"
+      "industry": "傳產-觀光",
+      "original_tier_before_signal_override": "低階"
     },
     {
       "ticker": "2905",
@@ -317,10 +321,11 @@
       "mention": "觀光餐旅族群中的個股。",
       "view": "中性",
       "anchor_phrase": "觀光的什麼海灣啊,三商啊",
-      "tier": "低階",
+      "tier": "轉強",
       "original_gemini_name": "三商餐旅",
       "original_gemini_ticker": "",
-      "industry": "傳產-百貨"
+      "industry": "傳產-百貨",
+      "original_tier_before_signal_override": "低階"
     }
   ],
   "key_points": [
@@ -330,5 +335,6 @@
     "春燕強調，最簡單的操作是低階買進，並按照 SOP 分批買賣，不要重壓單一族群或個股，分散佈局以降低風險。",
     "春燕提醒，新人務必學習低階股與轉強股的定義、左側與右側交易的操作方式，並理解選股的整體脈絡，而非只看短期資訊。",
     "春燕說明，節目是做波段操作的引導，非帶進帶出或提供明牌，主要教導如何選股與操作。"
-  ]
+  ],
+  "generated_at": null
 }
