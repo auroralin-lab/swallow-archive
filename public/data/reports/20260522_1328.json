@@ -39,7 +39,7 @@
     },
     {
       "name": "印刷電路板 (PCB)",
-      "summary": "裕富、松上、久威等PCB股目前位階偏低，裕富今日突破年線後壓回，松上與久威尚未上漲但體質良好。",
+      "summary": "育富、松上、久威等PCB股目前位階偏低，育富今日突破年線後壓回，松上與久威尚未上漲但體質良好。",
       "sentiment": "正面"
     },
     {
@@ -54,12 +54,12 @@
     },
     {
       "name": "光通訊/光纖",
-      "summary": "新通與康聯訊皆為光通訊相關，新通在盤整半年後今日再度轉強，康聯訊也出現在低階股名單。",
+      "summary": "星通與康聯訊皆為光通訊相關，星通在盤整半年後今日再度轉強，康聯訊也出現在低階股名單。",
       "sentiment": "正面"
     },
     {
       "name": "通訊設備",
-      "summary": "東訊、鼎天、鋐寶科技、華鈺等皆為通訊設備相關，部分與GPS、天線概念相關，東訊今日接近漲停。",
+      "summary": "東訊、鼎天、鋐寶科技、譁裕等皆為通訊設備相關，部分與GPS、天線概念相關，東訊今日接近漲停。",
       "sentiment": "正面"
     },
     {
@@ -142,14 +142,17 @@
       "industry": "電子中游-LCD-零組件"
     },
     {
-      "ticker": "2005",
+      "ticker": "2405",
       "name": "輔信",
       "mention": "與電腦系統相關，主要業務為醫療輔助，可視為AI醫療概念股。",
       "view": "中性",
       "anchor_phrase": "輔信，那輔信是2005的一個，他是也是跟電腦系統有點關係啊。",
-      "tier": "中性",
+      "tier": "轉強",
       "original_gemini_name": "輔信",
-      "original_gemini_ticker": "2005"
+      "original_gemini_ticker": "2005",
+      "industry": "電子中游-主機板",
+      "original_neutral_tier": true,
+      "tier_rescue_marker_distance": 534
     },
     {
       "ticker": "4768",
@@ -157,10 +160,11 @@
       "mention": "半導體特用化學股，去年90-100元時曾是低階股，底部形態漂亮，今日突破季線轉強。春燕提醒目前位階已高，不建議追高。",
       "view": "中性偏負",
       "anchor_phrase": "晶呈科技，晶呈科技的話，他現在為什麼轉強了呢？因為因為他今天突破了季線啊。",
-      "tier": "強勢",
+      "tier": "轉強",
       "original_gemini_name": "金城科技",
       "original_gemini_ticker": "3004",
-      "industry": "傳產-化學工業"
+      "industry": "傳產-化學工業",
+      "original_tier_before_signal_override": "強勢"
     },
     {
       "ticker": "6118",
@@ -179,10 +183,11 @@
       "mention": "車用金屬沖壓件，屬於汽車族群的低階股，形態上已打雙腳，今日長紅棒突破季線，且前段時間有大量資金進入。",
       "view": "正面",
       "anchor_phrase": "還有一個就是佳穎的部分啊。佳穎的話是車用金屬沖壓件。",
-      "tier": "低階",
+      "tier": "轉強",
       "original_gemini_name": "佳穎",
       "original_gemini_ticker": "3310",
-      "industry": "電子上游-連接元件"
+      "industry": "電子上游-連接元件",
+      "original_tier_before_signal_override": "低階"
     },
     {
       "ticker": "6698",
@@ -196,14 +201,16 @@
       "industry": "傳產-其他"
     },
     {
-      "ticker": "2737",
-      "name": "裕富",
+      "ticker": "6194",
+      "name": "育富",
       "mention": "印刷電路板股，之前盤整未漲，今日突破年線後被壓回，尚未大漲。",
       "view": "中性偏正",
-      "anchor_phrase": "還有一個就是裕富，裕富是印刷電路板。",
-      "tier": "低階",
+      "anchor_phrase": "還有一個就是育富，育富是印刷電路板。",
+      "tier": "轉強",
       "original_gemini_name": "裕富",
-      "original_gemini_ticker": "2737"
+      "original_gemini_ticker": "2737",
+      "industry": "電子上游-PCB-製造",
+      "original_tier_before_signal_override": "低階"
     },
     {
       "ticker": "2390",
@@ -211,10 +218,11 @@
       "mention": "工業電腦、安全監控、系統整合股，屬於安控族群的低階股，今日突破年線，後續可觀察是否回檔。",
       "view": "正面",
       "anchor_phrase": "還有個云辰，云辰也是工業電腦那個安全監控系統整合的部分。",
-      "tier": "低階",
+      "tier": "轉強",
       "original_gemini_name": "雲辰",
       "original_gemini_ticker": "2390",
-      "industry": "電子下游-安全監控"
+      "industry": "電子下游-安全監控",
+      "original_tier_before_signal_override": "低階"
     },
     {
       "ticker": "1525",
@@ -222,20 +230,22 @@
       "mention": "汽車族群的低階股，盤整許久，今日長紅棒帶量突破年線，但均線壓力仍在，目前仍是底部。",
       "view": "正面",
       "anchor_phrase": "然後江申，江申這個是很久之前的低階啊，一直，哎，這低階一直在這邊磨牙磨啊。",
-      "tier": "低階",
+      "tier": "轉強",
       "original_gemini_name": "江申",
       "original_gemini_ticker": "1525",
-      "industry": "傳產-汽車零組件"
+      "industry": "傳產-汽車零組件",
+      "original_tier_before_signal_override": "低階"
     },
     {
-      "ticker": "3367",
-      "name": "新通",
+      "ticker": "3025",
+      "name": "星通",
       "mention": "光通訊、光纖股，之前低階後噴出，盤整半年後今日再度轉強。",
       "view": "正面",
-      "anchor_phrase": "還有一個就是新通，新通是光通訊光纖啊。",
+      "anchor_phrase": "還有一個就是星通，星通是光通訊光纖啊。",
       "tier": "轉強",
       "original_gemini_name": "新通",
-      "original_gemini_ticker": "3367"
+      "original_gemini_ticker": "3367",
+      "industry": "電子中游-通訊設備"
     },
     {
       "ticker": "2321",
@@ -249,19 +259,22 @@
       "industry": "電子中游-通訊設備"
     },
     {
-      "ticker": "3309",
+      "ticker": "3306",
       "name": "鼎天",
       "mention": "GPS相關股，通訊設備族群，位階偏低。",
       "view": "正面",
       "anchor_phrase": "當然鼎天跟華鈺的部分啊，是那個華鈺是比較偏天線。",
-      "tier": "中性",
+      "tier": "低階",
       "original_gemini_name": "鼎天",
-      "original_gemini_ticker": "3309"
+      "original_gemini_ticker": "3309",
+      "industry": "電子中游-通訊設備",
+      "original_neutral_tier": true,
+      "tier_rescue_marker_distance": 72
     },
     {
       "ticker": "3672",
       "name": "康聯訊",
-      "mention": "光纖設備、光通訊股，之前新通轉強後，康聯訊也出現在低階股名單。",
+      "mention": "光纖設備、光通訊股，之前星通轉強後，康聯訊也出現在低階股名單。",
       "view": "正面",
       "anchor_phrase": "康聯訊也是光纖設備，光通訊。",
       "tier": "低階",
@@ -275,20 +288,25 @@
       "mention": "通訊設備、無線網路股，也具備GPS概念，位階偏低。",
       "view": "正面",
       "anchor_phrase": "紅寶科技是偏通訊設備，無線網路。",
-      "tier": "中性",
+      "tier": "低階",
       "original_gemini_name": "弘寶科技",
       "original_gemini_ticker": "3323",
-      "industry": "電子中游-網通"
+      "industry": "電子中游-網通",
+      "original_neutral_tier": true,
+      "tier_rescue_marker_distance": 79
     },
     {
-      "ticker": "6621",
-      "name": "華鈺",
+      "ticker": "3419",
+      "name": "譁裕",
       "mention": "偏天線、接收無線訊號的天線股，GPS概念股，位階偏低。",
       "view": "正面",
-      "anchor_phrase": "華鈺是比較偏天線，接收無線的那種天線。",
-      "tier": "中性",
+      "anchor_phrase": "譁裕是比較偏天線，接收無線的那種天線。",
+      "tier": "低階",
       "original_gemini_name": "華鈺",
-      "original_gemini_ticker": "6621"
+      "original_gemini_ticker": "6621",
+      "industry": "電子中游-網通",
+      "original_neutral_tier": true,
+      "tier_rescue_marker_distance": 84
     },
     {
       "ticker": "7703",
@@ -296,10 +314,12 @@
       "mention": "設備儀器商，主要做半導體設備，可留意。",
       "view": "正面",
       "anchor_phrase": "銳澤他寫的是設備儀器商啊，他主要也是做那個半導體設備的啊。",
-      "tier": "中性",
+      "tier": "低階",
       "original_gemini_name": "瑞澤",
       "original_gemini_ticker": "3444",
-      "industry": "電子中游-儀器設備工程"
+      "industry": "電子中游-儀器設備工程",
+      "original_neutral_tier": true,
+      "tier_rescue_marker_distance": 508
     },
     {
       "ticker": "8038",
@@ -351,10 +371,12 @@
       "mention": "電子下游，主要業務為視訊轉換，與通訊產業相關。",
       "view": "中性",
       "anchor_phrase": "那啟發電的話，他是做那個，嗯，啟發電他寫的是電子下游。",
-      "tier": "中性",
+      "tier": "低階",
       "original_gemini_name": "啟發電",
       "original_gemini_ticker": "6512",
-      "industry": "電子下游-其他"
+      "industry": "電子下游-其他",
+      "original_neutral_tier": true,
+      "tier_rescue_marker_distance": 797
     },
     {
       "ticker": "3492",
@@ -401,14 +423,15 @@
       "industry": "電子上游-PCB-製造"
     },
     {
-      "ticker": "6355",
-      "name": "鈞曜",
+      "ticker": "7770",
+      "name": "君曜",
       "mention": "之前曾是低階股，現在又再次出現，主要做手機維修，量較少。",
       "view": "中性",
-      "anchor_phrase": "這個鈞曜之前也出現在低階，他現在又出現在低階啊。",
+      "anchor_phrase": "這個君曜之前也出現在低階，他現在又出現在低階啊。",
       "tier": "低階",
       "original_gemini_name": "鈞曜",
-      "original_gemini_ticker": "6355"
+      "original_gemini_ticker": "6355",
+      "industry": "電子上游-IC-設計"
     },
     {
       "ticker": "2618",
@@ -416,10 +439,12 @@
       "mention": "觀光族群，今日再次出現，觀光產業預期會慢慢轉好。",
       "view": "正面",
       "anchor_phrase": "包括長榮航今天又出現了啊。長榮航就是跟那個觀光是有關係的哦。",
-      "tier": "中性",
+      "tier": "低階",
       "original_gemini_name": "長榮航",
       "original_gemini_ticker": "2618",
-      "industry": "傳產-航運"
+      "industry": "傳產-航運",
+      "original_neutral_tier": true,
+      "tier_rescue_marker_distance": 1504
     },
     {
       "ticker": "4733",
@@ -471,10 +496,12 @@
       "mention": "做盤子。",
       "view": "中性",
       "anchor_phrase": "嘉實是做盤子的那種，這個也可以注意一下。",
-      "tier": "中性",
+      "tier": "低階",
       "original_gemini_name": "嘉實",
       "original_gemini_ticker": "6005",
-      "industry": "軟體-系統整合"
+      "industry": "軟體-系統整合",
+      "original_neutral_tier": true,
+      "tier_rescue_marker_distance": 1839
     },
     {
       "ticker": "1540",
@@ -508,5 +535,6 @@
     "投資目標是提升生活品質，而非每日盯盤，可透過零股或小額試單建立信心。",
     "不建議猜測股價高點，有獲利即可分批出場，若具備技術分析能力可更有效操作。",
     "最簡單的波段操作方法是位階顯示綠色時買入，位階變紅或減弱時賣出。"
-  ]
+  ],
+  "generated_at": null
 }
