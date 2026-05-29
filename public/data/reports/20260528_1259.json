@@ -89,8 +89,8 @@
       "original_gemini_name": "大億",
       "original_gemini_ticker": "1526",
       "industry": "傳產-汽車零組件",
-      "anchor_phrase_raw": "汽車族群，大義，當然包括大義",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "汽車族群，大億，當然包括大億",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -103,8 +103,8 @@
       "original_gemini_name": "堤維西",
       "original_gemini_ticker": "1522",
       "industry": "傳產-汽車零組件",
-      "anchor_phrase_raw": "提維西 對不對，他是坐車燈的",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "堤維西 對不對，他是坐車燈的",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -112,12 +112,12 @@
       "name": "耿鼎",
       "mention": "汽車零組件，主要生產汽車板金，受惠關稅減免，從底部轉強。",
       "view": "正面",
-      "anchor_phrase": "耿鼎，耿鼎，一無二是耿鼎，他是坐汽車板筋的",
+      "anchor_phrase": "耿鼎，一無二是耿鼎，他是坐汽車板筋的",
       "tier": "轉強",
       "original_gemini_name": "耿鼎",
       "original_gemini_ticker": "1524",
       "industry": "傳產-汽車零組件",
-      "anchor_phrase_raw": "根蒂，一無二是根蒂",
+      "anchor_phrase_raw": "耿鼎，耿鼎，一無二是耿鼎，他是坐汽車板筋的",
       "anchor_polish_action": "completed",
       "anchor_polish_needs_review": false
     },
@@ -131,7 +131,7 @@
       "original_gemini_name": "帝寶",
       "original_gemini_ticker": "6605",
       "industry": "傳產-汽車零組件",
-      "anchor_phrase_raw": "6605，地保，對不對，車燈",
+      "anchor_phrase_raw": "6605，帝寶，對不對，車燈 對不對",
       "anchor_polish_action": "fixed_homophone",
       "anchor_polish_needs_review": false
     },
@@ -145,8 +145,8 @@
       "original_gemini_name": "堤維西",
       "original_gemini_ticker": "1522",
       "industry": "傳產-汽車零組件",
-      "anchor_phrase_raw": "逆傾他長了兩天了 對不對",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "堤維西他長了兩天了 對不對",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -159,8 +159,8 @@
       "original_gemini_name": "昭輝",
       "original_gemini_ticker": "1339",
       "industry": "傳產-汽車零組件",
-      "anchor_phrase_raw": "1339的招輝，大一我又買嘛",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "因為我也買了一張，1339的昭輝，大億我又買嘛",
+      "anchor_polish_action": "fixed_homophone",
       "anchor_polish_needs_review": false
     },
     {
@@ -173,8 +173,8 @@
       "original_gemini_name": "同致",
       "original_gemini_ticker": "3552",
       "industry": "傳產-汽車零組件",
-      "anchor_phrase_raw": "3552的童智，童智他是坐倒車雷達的",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "當然還有一檔3552的同致，同致他是坐倒車雷達的",
+      "anchor_polish_action": "fixed_homophone",
       "anchor_polish_needs_review": false
     },
     {
@@ -187,8 +187,8 @@
       "original_gemini_name": "駐龍",
       "original_gemini_ticker": "4566",
       "industry": "傳產-電機",
-      "anchor_phrase_raw": "鑄龍，鑄龍是什麼，航太的民主艦",
-      "anchor_polish_action": "replaced",
+      "anchor_phrase_raw": "還有，當然駐龍，它本來就是航天航空軍工，這個沒什麼問題",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -201,8 +201,8 @@
       "original_gemini_name": "寶一",
       "original_gemini_ticker": "8222",
       "industry": "傳產-其他",
-      "anchor_phrase_raw": "包括昨天出現的寶一",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "所以包括昨天出現的寶一，今天出現的鑄龍",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -216,7 +216,7 @@
       "original_gemini_ticker": "4541",
       "industry": "傳產-航運",
       "anchor_phrase_raw": "當然還有一些什麼晟田",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -224,7 +224,7 @@
       "name": "長榮航太",
       "mention": "航太零組件，受惠關稅減免。",
       "view": "正面",
-      "anchor_phrase": "什麼成田、長榮、航太",
+      "anchor_phrase": "什麼晟田、長榮、航太",
       "tier": "轉強",
       "original_gemini_name": "長榮航太",
       "original_gemini_ticker": "2645",
@@ -243,8 +243,8 @@
       "original_gemini_name": "漢翔",
       "original_gemini_ticker": "2634",
       "industry": "傳產-航運",
-      "anchor_phrase_raw": "長榮、航太、漢祥",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "長榮、航太、漢翔",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -257,8 +257,8 @@
       "original_gemini_name": "弘憶股",
       "original_gemini_ticker": "6573",
       "industry": "電子上游-IC-通路",
-      "anchor_phrase_raw": "6573的紅洋KV，它是分離式",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "6573的弘憶股，它是分離式",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -266,12 +266,12 @@
       "name": "吉茂",
       "mention": "汽車散熱股，昨日為低階股，今日漲停板。",
       "view": "正面",
-      "anchor_phrase": "昨天我記得有吉茂，對不對，那個汽車散熱的，今天是不是也漲平板",
+      "anchor_phrase": "昨天我記得有吉茂，對不對，那個汽車散熱的",
       "tier": "強勢",
       "original_gemini_name": "吉茂",
       "original_gemini_ticker": "1587",
       "industry": "傳產-汽車",
-      "anchor_phrase_raw": "吉茂，對不對，那個汽車散熱的",
+      "anchor_phrase_raw": "昨天我記得有吉茂，對不對，那個汽車散熱的，今天是不是也漲平板",
       "anchor_polish_action": "completed",
       "anchor_polish_needs_review": false
     },
@@ -280,13 +280,13 @@
       "name": "實威",
       "mention": "昨日低階股，做3D列印，與無人機概念相關，今日漲停板。",
       "view": "正面",
-      "anchor_phrase": "還有那個實威，實威，就8416的實威是昨天的遞接股，我有寫",
+      "anchor_phrase": "還有那個實威，8416的實威是昨天的低階股，我有寫",
       "tier": "強勢",
       "original_gemini_name": "時威",
       "original_gemini_ticker": "8416",
       "industry": "軟體-系統整合",
-      "anchor_phrase_raw": "8416的實威是昨天的遞接鼓",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "還有那個實威，實威，就8416的實威是昨天的遞接股，我有寫",
+      "anchor_polish_action": "fixed_homophone",
       "anchor_polish_needs_review": false
     },
     {
@@ -294,13 +294,13 @@
       "name": "研勤",
       "mention": "車用電子股，主要生產行車記錄器，具感測辨識功能，與無人機概念可能相關。",
       "view": "正面",
-      "anchor_phrase": "所以說，還有3632的研勤，這一檔其實它跟車用電子也有關係",
+      "anchor_phrase": "還有3632的研勤，它跟車用電子也有關係",
       "tier": "轉強",
       "original_gemini_name": "研勤",
       "original_gemini_ticker": "3632",
       "industry": "軟體-系統整合",
-      "anchor_phrase_raw": "3632的炎晴，這一檔其實它跟車用電子",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "所以說，還有3632的研勤，這一檔其實它跟車用電子也有關係",
+      "anchor_polish_action": "fixed_homophone",
       "anchor_polish_needs_review": false
     },
     {
@@ -308,7 +308,7 @@
       "name": "訊連",
       "mention": "提及為面板族群，可注意。",
       "view": "中性偏正",
-      "anchor_phrase": "5245的資金它是面板豬群的",
+      "anchor_phrase": "5245的資金它是面板族群的",
       "tier": "中性",
       "original_gemini_name": "訊連",
       "original_gemini_ticker": "5245",
@@ -328,8 +328,8 @@
       "original_gemini_ticker": "1513",
       "industry": "電子中游-網通",
       "ticker_uncertain": "1513",
-      "anchor_phrase_raw": "重機了，重機它是做網通裝置的",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "正基了，正基它是做網通裝置的",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -342,8 +342,8 @@
       "original_gemini_name": "集盛",
       "original_gemini_ticker": "1455",
       "industry": "傳產-紡織纖維",
-      "anchor_phrase_raw": "極盛的話，就是紡織纖維嘛",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "集盛的話，就是紡織纖維嘛",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -351,14 +351,14 @@
       "name": "慶豐富",
       "mention": "家居用品股，主要生產窗簾，受惠關稅減免，前景看好。",
       "view": "正面",
-      "anchor_phrase": "清風富是做床簾的對不對",
+      "anchor_phrase": "慶豐富是做床簾的對不對",
       "tier": "低階",
       "original_gemini_name": "慶豐富",
       "original_gemini_ticker": "8420",
       "industry": "傳產-其他",
       "anchor_phrase_raw": "清風富是做床簾的對不對",
-      "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_action": "fixed_homophone",
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "",
@@ -371,8 +371,8 @@
       "original_gemini_ticker": "6558",
       "industry": "",
       "ticker_uncertain": "6558",
-      "anchor_phrase_raw": "穿飛是做什麼的，是電動車的",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "擎飛是做什麼的，是電動車的",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -385,8 +385,8 @@
       "original_gemini_name": "台苯",
       "original_gemini_ticker": "1309",
       "industry": "傳產-塑膠",
-      "anchor_phrase_raw": "大量的塑膠，臺本",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "大量的塑膠，台苯",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -394,27 +394,27 @@
       "name": "亞聚",
       "mention": "塑化股，跌至支撐區後出現低階反彈。",
       "view": "正面",
-      "anchor_phrase": "臺本，亞鉅",
+      "anchor_phrase": "那今天出現了大量的塑膠，台苯，亞聚",
       "tier": "低階",
       "original_gemini_name": "亞聚",
       "original_gemini_ticker": "1308",
       "industry": "傳產-塑膠",
       "anchor_phrase_raw": "臺本，亞鉅",
-      "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_action": "completed",
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "1305",
       "name": "華夏",
       "mention": "塑化股，跌至支撐區後出現低階反彈，春燕曾考慮佈局。",
       "view": "正面",
-      "anchor_phrase": "我心想那挑個塑化吧，挑個華夏，寫在那裡，今天早上沒買了",
+      "anchor_phrase": "我心想那挑個塑化吧，挑個華夏，寫在那裡",
       "tier": "低階",
       "original_gemini_name": "華夏",
       "original_gemini_ticker": "1305",
       "industry": "傳產-塑膠",
-      "anchor_phrase_raw": "亞鉅，華夏",
-      "anchor_polish_action": "replaced",
+      "anchor_phrase_raw": "我心想那挑個塑化吧，挑個華夏，寫在那裡，今天早上沒買了",
+      "anchor_polish_action": "completed",
       "anchor_polish_needs_review": false
     },
     {
@@ -422,14 +422,14 @@
       "name": "台聚",
       "mention": "塑化股，跌至支撐區後出現低階反彈。",
       "view": "正面",
-      "anchor_phrase": "華夏，臺劇",
+      "anchor_phrase": "這個就是台苯亞聚，華夏台聚，之前我都有講過",
       "tier": "低階",
       "original_gemini_name": "台聚",
       "original_gemini_ticker": "1304",
       "industry": "傳產-塑膠",
       "anchor_phrase_raw": "華夏，臺劇",
-      "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_action": "replaced",
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "2247",
@@ -451,7 +451,7 @@
       "name": "汎德永業",
       "mention": "汽車零組件股，族群性發動。",
       "view": "正面",
-      "anchor_phrase": "梵德，永葉",
+      "anchor_phrase": "汎德，永業",
       "tier": "轉強",
       "original_gemini_name": "永業",
       "original_gemini_ticker": "1540",
@@ -465,49 +465,49 @@
       "name": "裕隆",
       "mention": "汽車零組件股，族群性發動。",
       "view": "正面",
-      "anchor_phrase": "永葉，玉龍",
+      "anchor_phrase": "所以今天汽車出現了汎德，永業，裕隆",
       "tier": "轉強",
       "original_gemini_name": "裕隆",
       "original_gemini_ticker": "2201",
       "industry": "傳產-汽車",
       "anchor_phrase_raw": "永葉，玉龍",
-      "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_action": "completed",
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "1512",
       "name": "瑞利",
       "mention": "汽車零組件股，族群性發動。",
       "view": "正面",
-      "anchor_phrase": "玉龍，瑞逆",
+      "anchor_phrase": "所以今天汽車出現了汎德，永業，裕隆，瑞利",
       "tier": "轉強",
       "original_gemini_name": "瑞利",
       "original_gemini_ticker": "2233",
       "industry": "傳產-汽車零組件",
       "anchor_phrase_raw": "玉龍，瑞逆",
-      "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_action": "completed",
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "3705",
       "name": "永信",
       "mention": "汽車零組件股，族群性發動。",
       "view": "正面",
-      "anchor_phrase": "瑞逆，永信",
+      "anchor_phrase": "瑞利，永信",
       "tier": "轉強",
       "original_gemini_name": "永興",
       "original_gemini_ticker": "1533",
       "industry": "傳產-生技",
       "anchor_phrase_raw": "瑞逆，永信",
       "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "6279",
       "name": "胡連",
       "mention": "汽車零組件股，族群性發動。",
       "view": "正面",
-      "anchor_phrase": "永興，虎山",
+      "anchor_phrase": "永昕，虎山",
       "tier": "轉強",
       "original_gemini_name": "胡連",
       "original_gemini_ticker": "6279",
@@ -528,42 +528,42 @@
       "industry": "電子中游-機殼",
       "anchor_phrase_raw": "虎山，錦明",
       "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "4523",
       "name": "永彰",
       "mention": "汽車零組件股，族群性發動。",
       "view": "正面",
-      "anchor_phrase": "建明，永張",
+      "anchor_phrase": "錦明、永彰",
       "tier": "轉強",
       "original_gemini_name": "永彰",
       "original_gemini_ticker": "1537",
       "industry": "傳產-汽車零組件",
       "anchor_phrase_raw": "建明，永張",
       "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "1338",
       "name": "廣華-KY",
       "mention": "汽車零組件股，族群性發動。",
       "view": "正面",
-      "anchor_phrase": "永張，KKY，廣華KV",
+      "anchor_phrase": "永彰，KKY，廣華-KY",
       "tier": "轉強",
       "original_gemini_name": "廣華-KY",
       "original_gemini_ticker": "1338",
       "industry": "傳產-汽車零組件",
       "anchor_phrase_raw": "永張，KKY，廣華KV",
-      "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_action": "fixed_homophone",
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "",
       "name": "金豐機器",
       "mention": "汽車零組件相關機械股，族群性發動。",
       "view": "正面",
-      "anchor_phrase": "廣華KV，金魚",
+      "anchor_phrase": "廣華KV，金雨",
       "tier": "轉強",
       "original_gemini_name": "金豐機器",
       "original_gemini_ticker": "1530",
@@ -606,7 +606,7 @@
       "name": "國建",
       "mention": "營建股，資產股概念，受通膨敘事影響。",
       "view": "正面",
-      "anchor_phrase": "玉，國建，歷齊",
+      "anchor_phrase": "玉，國建、力麒",
       "tier": "低階",
       "original_gemini_name": "國建",
       "original_gemini_ticker": "2501",
@@ -620,7 +620,7 @@
       "name": "宏璟",
       "mention": "營建股，資產股概念，受通膨敘事影響。",
       "view": "正面",
-      "anchor_phrase": "國建，歷齊，李明",
+      "anchor_phrase": "國建，力麒、力麒",
       "tier": "低階",
       "original_gemini_name": "宏璟",
       "original_gemini_ticker": "2542",
@@ -634,7 +634,7 @@
       "name": "華固",
       "mention": "營建股，資產股概念，受通膨敘事影響。",
       "view": "正面",
-      "anchor_phrase": "歷齊，李明，新美齊",
+      "anchor_phrase": "力麒，力麒、新美齊",
       "tier": "低階",
       "original_gemini_name": "華固",
       "original_gemini_ticker": "2548",
@@ -648,7 +648,7 @@
       "name": "新美齊",
       "mention": "營建股，資產股概念，受通膨敘事影響。",
       "view": "正面",
-      "anchor_phrase": "李明，新美齊",
+      "anchor_phrase": "力麒、新美齊",
       "tier": "低階",
       "original_gemini_name": "新美齊",
       "original_gemini_ticker": "2549",
@@ -667,8 +667,8 @@
       "original_gemini_name": "台灣神隆",
       "original_gemini_ticker": "4120",
       "industry": "傳產-生技",
-      "anchor_phrase_raw": "包括一些生技，什麼神農",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "好，其他的包括一些生技，什麼神隆，鐿鈦，鐿鈦就是AI醫療",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -681,8 +681,8 @@
       "original_gemini_name": "鐿鈦",
       "original_gemini_ticker": "4106",
       "industry": "傳產-生技",
-      "anchor_phrase_raw": "玉尾就是AI醫療",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "什麼神隆，鐿鈦，鐿鈦就是AI醫療",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -690,21 +690,21 @@
       "name": "來思達",
       "mention": "家居用品股，主要業務為家具，受惠關稅減免。",
       "view": "正面",
-      "anchor_phrase": "來思達，它寫的是百貨",
+      "anchor_phrase": "來思達，它寫的是百貨，其實它是做傢俱的",
       "tier": "低階",
       "original_gemini_name": "萊斯達",
       "original_gemini_ticker": "8066",
       "industry": "傳產-百貨",
       "anchor_phrase_raw": "來思達，它寫的是百貨",
-      "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_action": "completed",
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "2912",
       "name": "統一超",
       "mention": "資產股，可能受通膨敘事影響。",
       "view": "正面",
-      "anchor_phrase": "統一超農民，它是資產股",
+      "anchor_phrase": "統一超、農林，它是資產股",
       "tier": "低階",
       "original_gemini_name": "統一超",
       "original_gemini_ticker": "2912",
@@ -718,7 +718,7 @@
       "name": "統領",
       "mention": "資產股，可能受通膨敘事影響。",
       "view": "正面",
-      "anchor_phrase": "統一超農民",
+      "anchor_phrase": "統一超、農林",
       "tier": "低階",
       "original_gemini_name": "農林",
       "original_gemini_ticker": "2910",
@@ -737,8 +737,8 @@
       "original_gemini_name": "力麗",
       "original_gemini_ticker": "1444",
       "industry": "傳產-紡織纖維",
-      "anchor_phrase_raw": "紡織出現了大量，什麼利奇",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "紡織出現了大量，什麼力麗",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -774,26 +774,26 @@
       "name": "宏和",
       "mention": "紡織股，具資產股特性，可能受通膨敘事影響。",
       "view": "正面",
-      "anchor_phrase": "臺富，鴻河",
+      "anchor_phrase": "紡織出現了大量，什麼力麗，聚隆，台富，宏和",
       "tier": "低階",
       "original_gemini_name": "宏和",
       "original_gemini_ticker": "1456",
       "industry": "傳產-紡織纖維",
       "anchor_phrase_raw": "臺富，鴻河",
-      "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_action": "replaced",
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "2610",
       "name": "華航",
       "mention": "航空股，歸類為觀光族群，可注意。",
       "view": "正面",
-      "anchor_phrase": "還有就是華航，航運的部分，華航我認為是歸內在一個觀光",
+      "anchor_phrase": "還有就是華航，航運的部分，我認為是歸內在一個觀光",
       "tier": "低階",
       "original_gemini_name": "華航",
       "original_gemini_ticker": "2610",
       "industry": "傳產-航運",
-      "anchor_phrase_raw": "華航，航運的部分",
+      "anchor_phrase_raw": "還有就是華航，航運的部分，華航我認為是歸內在一個觀光",
       "anchor_polish_action": "completed",
       "anchor_polish_needs_review": false
     },
@@ -802,12 +802,12 @@
       "name": "長榮航",
       "mention": "航空股，歸類為觀光族群，前幾日已出現。",
       "view": "正面",
-      "anchor_phrase": "昨天出現的長榮航，不是昨天，反正就是前幾天，就出現長榮航了",
+      "anchor_phrase": "昨天出現的長榮航，反正就是前幾天，就出現長榮航了",
       "tier": "低階",
       "original_gemini_name": "長榮航",
       "original_gemini_ticker": "2618",
       "industry": "傳產-航運",
-      "anchor_phrase_raw": "反正就是前幾天，就出現長榮航了",
+      "anchor_phrase_raw": "昨天出現的長榮航，不是昨天，反正就是前幾天，就出現長榮航了",
       "anchor_polish_action": "completed",
       "anchor_polish_needs_review": false
     },
@@ -821,8 +821,8 @@
       "original_gemini_name": "成田",
       "original_gemini_ticker": "4541",
       "industry": "傳產-航運",
-      "anchor_phrase_raw": "沉舔的話，四五四一就跟昨天的保一",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "晟田的話，4541就跟昨天的寶一一樣，都是航天軍工",
+      "anchor_polish_action": "fixed_homophone",
       "anchor_polish_needs_review": false
     },
     {
@@ -835,8 +835,8 @@
       "original_gemini_name": "亞都",
       "original_gemini_ticker": "5703",
       "industry": "傳產-觀光",
-      "anchor_phrase_raw": "華航，亞都",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "華航，亞都，皇家美食也出現了",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -849,8 +849,8 @@
       "original_gemini_name": "皇家美食",
       "original_gemini_ticker": "2739",
       "industry": "傳產-觀光",
-      "anchor_phrase_raw": "亞都，皇家美食也出現了",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "華航，亞都，皇家美食也出現了",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -863,8 +863,8 @@
       "original_gemini_name": "亞力",
       "original_gemini_ticker": "1514",
       "industry": "傳產-電機",
-      "anchor_phrase_raw": "橋幅是電機很低階就對了",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "其他的亞力是電機很低階就對了",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -879,7 +879,7 @@
       "industry": "傳產-食品",
       "anchor_phrase_raw": "食品王座天人泰山",
       "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": true
+      "anchor_polish_needs_review": false
     },
     {
       "ticker": "8924",
@@ -891,8 +891,8 @@
       "original_gemini_name": "大田",
       "original_gemini_ticker": "8924",
       "industry": "傳產-高爾夫球",
-      "anchor_phrase_raw": "高爾夫球，大田 對不對",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "高爾夫球，大田 對不對，大田就是高爾夫球",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -905,8 +905,8 @@
       "original_gemini_name": "復盛應用",
       "original_gemini_ticker": "6670",
       "industry": "傳產-高爾夫球",
-      "anchor_phrase_raw": "昨天的複興應用一樣 對不對",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "昨天的復盛應用一樣 對不對",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -919,8 +919,8 @@
       "original_gemini_name": "華晶科",
       "original_gemini_ticker": "3059",
       "industry": "電子下游-數位相機",
-      "anchor_phrase_raw": "系統整合的，華鴻芝",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "系統整合的，華晶科",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -928,13 +928,13 @@
       "name": "瑞祺電通",
       "mention": "低階股，之前已在APP中出現。",
       "view": "正面",
-      "anchor_phrase": "瑞祺電通之前也出現了我們的AIP，出現了我們的低階股",
+      "anchor_phrase": "瑞祺電通之前也出現了我們的AI，出現了我們的低階股",
       "tier": "低階",
       "original_gemini_name": "瑞祺電通",
       "original_gemini_ticker": "6419",
       "industry": "電子中游-網通",
-      "anchor_phrase_raw": "九威之前也出現了我們的AIP",
-      "anchor_polish_action": "completed",
+      "anchor_phrase_raw": "瑞祺電通之前也出現了我們的AIP，出現了我們的低階股",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -961,8 +961,8 @@
       "original_gemini_name": "華晶科",
       "original_gemini_ticker": "3059",
       "industry": "電子下游-數位相機",
-      "anchor_phrase_raw": "華鴻，這都是比較低階的",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "華晶科，這都是比較低階的",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -975,8 +975,8 @@
       "original_gemini_name": "美隆電",
       "original_gemini_ticker": "2477",
       "industry": "電子下游-消費電子",
-      "anchor_phrase_raw": "美濃電也差不多",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "美隆電也差不多",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -989,8 +989,8 @@
       "original_gemini_name": "美律",
       "original_gemini_ticker": "2439",
       "industry": "電子下游-消費電子",
-      "anchor_phrase_raw": "昨天我講美女可能會回檔",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "昨天我講美律可能會回檔",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -1003,8 +1003,8 @@
       "original_gemini_name": "茂林-KY",
       "original_gemini_ticker": "4935",
       "industry": "電子中游-LCD-零組件",
-      "anchor_phrase_raw": "茂林TV它是面板族群的低階股",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "茂林-KY它是面板族群的低階股",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -1017,8 +1017,8 @@
       "original_gemini_name": "森崴能源",
       "original_gemini_ticker": "3680",
       "industry": "電子下游-太陽能",
-      "anchor_phrase_raw": "東延信超它主要是講過了",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "森崴能源它主要是講過了",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -1031,8 +1031,8 @@
       "original_gemini_name": "建漢",
       "original_gemini_ticker": "3062",
       "industry": "電子中游-網通",
-      "anchor_phrase_raw": "居然的通訊裝置",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "建漢的通訊裝置",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -1040,13 +1040,13 @@
       "name": "統一超",
       "mention": "再次提及為資產股，抗通膨概念。",
       "view": "正面",
-      "anchor_phrase": "還有統一超農民，它是資產股",
+      "anchor_phrase": "還有統一超、農林，它是資產股",
       "tier": "低階",
       "original_gemini_name": "統一超",
       "original_gemini_ticker": "2912",
       "industry": "傳產-百貨",
-      "anchor_phrase_raw": "那些資產股像統一超",
-      "anchor_polish_action": "replaced",
+      "anchor_phrase_raw": "還有統一超農民，它是資產股",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     },
     {
@@ -1059,8 +1059,8 @@
       "original_gemini_name": "遠東新",
       "original_gemini_ticker": "1402",
       "industry": "傳產-紡織纖維",
-      "anchor_phrase_raw": "遠東興他做紡織的",
-      "anchor_polish_action": "fixed_homophone",
+      "anchor_phrase_raw": "遠東新他做紡織的",
+      "anchor_polish_action": "kept",
       "anchor_polish_needs_review": false
     }
   ],
