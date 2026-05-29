@@ -5,12 +5,14 @@ import ReactMarkdown from 'react-markdown'
 import type { Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
+import { markdownPlainFallback, markdownToBlogHtml } from '@/app/lib/blog-html'
 import {
   getReportIds,
   getReportMarkdown,
   getReportMeta,
 } from '@/app/lib/reports'
 import { TableOfContents, type TocSection } from '@/components/toc'
+import { CopyBlogButton } from './copy-blog-button'
 
 const SECTIONS: TocSection[] = [
   { id: 'overview', label: '盤勢概況', shortLabel: '概況' },
@@ -178,6 +180,8 @@ export default async function ReportPage({
   const generatedShort = formatGenerated(meta.generated_at)
   const industries = parseIndustries(md)
   const components = buildComponents(industries)
+  const blogHtml = await markdownToBlogHtml(md)
+  const blogPlain = markdownPlainFallback(md)
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-10" id="top">
@@ -220,6 +224,10 @@ export default async function ReportPage({
           ) : null}
         </div>
       </header>
+
+      <div className="mb-6 flex justify-end">
+        <CopyBlogButton html={blogHtml} plainFallback={blogPlain} />
+      </div>
 
       <TableOfContents sections={SECTIONS} />
 
