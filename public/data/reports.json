@@ -5,14 +5,14 @@
     "weekday": "週四",
     "time": "12:59",
     "generated_at": null,
-    "stock_count": 70,
+    "stock_count": 65,
     "industry_count": 15,
     "tiers": {
       "龍頭": 0,
-      "強勢": 3,
-      "轉強": 26,
-      "低階": 35,
-      "中性": 6
+      "強勢": 2,
+      "轉強": 24,
+      "低階": 34,
+      "中性": 5
     },
     "top_industries": [
       "傳產-汽車零組件",
