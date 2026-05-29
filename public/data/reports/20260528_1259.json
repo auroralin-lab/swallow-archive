@@ -1135,20 +1135,6 @@
       "anchor_polish_needs_review": false
     },
     {
-      "ticker": "912000",
-      "name": "晨訊科-DR",
-      "mention": "網通股，低階股浮現，春燕提醒可注意。",
-      "view": "中性偏正",
-      "anchor_phrase": "晨訊科-DR",
-      "tier": "低階",
-      "original_gemini_name": "程訊科",
-      "original_gemini_ticker": "6160",
-      "industry": "電子中游-網通",
-      "anchor_phrase_raw": "晨訊科-DR",
-      "anchor_polish_action": "kept",
-      "anchor_polish_needs_review": false
-    },
-    {
       "ticker": "2616",
       "name": "山隆",
       "mention": "燃氣石油股，低階股浮現，春燕提及其與塑化、紡織等原物料相關。",

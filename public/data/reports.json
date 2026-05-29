@@ -5,13 +5,13 @@
     "weekday": "週四",
     "time": "12:59",
     "generated_at": null,
-    "stock_count": 69,
+    "stock_count": 68,
     "industry_count": 38,
     "tiers": {
       "龍頭": 0,
       "強勢": 3,
       "轉強": 14,
-      "低階": 42,
+      "低階": 41,
       "中性": 10
     },
     "top_industries": [
