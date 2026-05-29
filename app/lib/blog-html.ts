@@ -65,8 +65,11 @@ function processTable(
   tdStyleBase: string,
 ): string {
   const headerScope = body.match(/<thead[\s\S]*?<\/thead>/)?.[0] ?? body
+  // 注意：`<th[^>]*>` 會誤吃 `<thead>`（<th + ead + >），把首欄抓成 "<tr>\n<th>代號"
+  // 導致首欄（代號）對不到 COLUMN_PX_FIXED、被當成寬文字欄狂吃 px → 表格跑版。
+  // 要求 `<th` 後面接空白或直接 `>`，才不會匹配到 <thead>。
   const headers = Array.from(
-    headerScope.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/g),
+    headerScope.matchAll(/<th(?:\s[^>]*)?>([\s\S]*?)<\/th>/g),
   ).map((m) => String(m[1]).trim())
 
   // 算每欄寬度：已知窄欄取固定 px，未知（長文字欄）均分剩下的 px
