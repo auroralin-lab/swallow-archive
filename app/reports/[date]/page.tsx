@@ -1,168 +1,149 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Radio, FileText } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
-import type { Components } from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeRaw from 'rehype-raw'
-import { markdownPlainFallback, markdownToBlogHtml } from '@/app/lib/blog-html'
+import {
+  getReportData,
+  groupStocks,
+  partitionStocks,
+  pickTierCounts,
+  sentimentTone,
+  sanitizeVoice,
+  parseKeyPoint,
+  displayTier,
+  hasValidTicker,
+  PICK_TIER_ORDER,
+  DISPLAY_TIER_META,
+  type DisplayTier,
+  type Stock,
+  type StockGroup,
+} from '@/app/lib/report-data'
 import {
   getReportIds,
   getReportMarkdown,
   getReportMeta,
 } from '@/app/lib/reports'
+import { markdownPlainFallback, markdownToBlogHtml } from '@/app/lib/blog-html'
 import { TableOfContents, type TocSection } from '@/components/toc'
 import { CopyBlogButton } from './copy-blog-button'
 
 const SECTIONS: TocSection[] = [
   { id: 'overview', label: '盤勢概況', shortLabel: '概況' },
-  { id: 'key-points', label: '重點' },
-  { id: 'industries', label: '產業分析', shortLabel: '產業' },
-  { id: 'stocks', label: '提及個股', shortLabel: '個股' },
+  { id: 'key-points', label: '重點', shortLabel: '重點' },
+  { id: 'industries', label: '產業觀點', shortLabel: '產業' },
+  { id: 'stocks', label: '個股清單', shortLabel: '個股' },
 ]
-
-function headingText(children: React.ReactNode): string {
-  if (typeof children === 'string') return children
-  if (typeof children === 'number') return String(children)
-  if (Array.isArray(children)) return children.map(headingText).join('')
-  return ''
-}
-
-type IndustryEntry = { name: string; count: number }
-
-// 從 markdown 抓「### 產業名（觀點）— N 檔」這類 h3，組產業導覽用的清單。
-// 我們不解析「## 個股提及」之上的 h3（其實也沒有），所以全文 scan 即可。
-function parseIndustries(md: string): IndustryEntry[] {
-  const out: IndustryEntry[] = []
-  const re = /^###\s+(.+?)(?:（[^）]+）)?\s+—\s+(\d+)\s*檔/gm
-  let m: RegExpExecArray | null
-  while ((m = re.exec(md)) !== null) {
-    out.push({ name: m[1].trim(), count: Number(m[2]) })
-  }
-  return out
-}
-
-function industrySlugFromHeading(text: string): string | null {
-  // text 例: 「傳產-其他（正面）— 4 檔」 或 「電子上游-連接元件 — 3 檔」
-  const m = text.match(/^(.+?)(?:（[^）]+）)?\s+—\s+\d+\s*檔/)
-  return m ? m[1].trim() : null
-}
-
-type IndustryGroup = { label: string; items: IndustryEntry[] }
-
-// 大類顯示順序 — 固定優先序，未在此清單的歸「其他」放最後
-const INDUSTRY_GROUP_ORDER = ['傳產', '電子上游', '電子中游', '電子下游', '軟體']
-
-function groupIndustries(items: IndustryEntry[]): IndustryGroup[] {
-  // 依 industry name 的「-」之前 prefix 分群；組內保留原 items 的順序（= 春燕提及序）
-  const buckets = new Map<string, IndustryEntry[]>()
-  for (const item of items) {
-    const dashIdx = item.name.indexOf('-')
-    const label = dashIdx > 0 ? item.name.slice(0, dashIdx) : '其他'
-    const arr = buckets.get(label) ?? []
-    arr.push(item)
-    buckets.set(label, arr)
-  }
-  const groups: IndustryGroup[] = []
-  for (const label of INDUSTRY_GROUP_ORDER) {
-    const arr = buckets.get(label)
-    if (arr && arr.length > 0) groups.push({ label, items: arr })
-    buckets.delete(label)
-  }
-  // 剩下未在 GROUP_ORDER 的（含「其他」或未來新類別）放最後
-  for (const [label, arr] of buckets) {
-    if (arr.length > 0) groups.push({ label, items: arr })
-  }
-  return groups
-}
-
-function IndustryChipNav({ items }: { items: IndustryEntry[] }) {
-  if (items.length === 0) return null
-  const groups = groupIndustries(items)
-  return (
-    <nav className="industry-chips" aria-label="跳到產業">
-      <p className="industry-chips-hint">
-        依產業大類分組、組內按
-        <span className="hint-tier">春燕提及順序</span>
-        （只含 <span className="hint-tier">⚡轉強</span>+
-        <span className="hint-tier">🌱低階</span> 個股）
-      </p>
-      {groups.map((g) => (
-        <div key={g.label} className="industry-group">
-          <h4 className="industry-group-label">
-            {g.label}
-            <span className="industry-group-count">{g.items.length}</span>
-          </h4>
-          <div className="industry-chips-list">
-            {g.items.map((i) => {
-              // 在分組標題已點明大類，chip 內 name 去掉冗餘 prefix
-              const dashIdx = i.name.indexOf('-')
-              const displayName =
-                dashIdx > 0 ? i.name.slice(dashIdx + 1) : i.name
-              return (
-                <a
-                  key={i.name}
-                  href={`#ind-${encodeURIComponent(i.name)}`}
-                  className="industry-chip"
-                  title={i.name}
-                >
-                  <span className="industry-chip-name">{displayName}</span>
-                  <span className="industry-chip-count">{i.count}</span>
-                </a>
-              )
-            })}
-          </div>
-        </div>
-      ))}
-    </nav>
-  )
-}
-
-function buildComponents(industries: IndustryEntry[]): Components {
-  return {
-    h2: ({ children, ...props }) => {
-      const text = headingText(children).trim()
-      const section = SECTIONS.find((s) => text.startsWith(s.label))
-      const isStocksHeading = text.startsWith('提及個股')
-      return (
-        <>
-          <h2 id={section?.id} {...props}>
-            {children}
-          </h2>
-          {isStocksHeading ? <IndustryChipNav items={industries} /> : null}
-        </>
-      )
-    },
-    h3: ({ children, ...props }) => {
-      const text = headingText(children).trim()
-      const slug = industrySlugFromHeading(text)
-      return (
-        <h3 id={slug ? `ind-${slug}` : undefined} {...props}>
-          {children}
-        </h3>
-      )
-    },
-    table: ({ children, ...props }) => (
-      <div className="markdown-body-table-wrap">
-        <table {...props}>{children}</table>
-      </div>
-    ),
-  }
-}
 
 export async function generateStaticParams() {
   const ids = await getReportIds()
   return ids.map((date) => ({ date }))
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ date: string }>
+}): Promise<Metadata> {
+  const { date } = await params
+  const meta = await getReportMeta(date)
+  if (!meta) return {}
+  const data = await getReportData(date)
+  const desc = data?.market_overview
+    ? data.market_overview.slice(0, 90)
+    : '春燕來了每日盤勢摘要'
+  return {
+    title: `${meta.date}（${meta.weekday}）· 春燕來了`,
+    description: desc,
+  }
+}
+
 function formatGenerated(iso: string | null): string | null {
   if (!iso) return null
-  // ISO 8601 with offset, ex: 2026-05-25T22:08:33+08:00
-  // 顯示成「05-25 22:08」這種短格式
   const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/)
   if (!m) return iso
   const [, , mo, d, hh, mm] = m
   return `${mo}-${d} ${hh}:${mm}`
+}
+
+function TierBadge({ tier, count }: { tier: DisplayTier; count?: number }) {
+  const m = DISPLAY_TIER_META[tier]
+  return (
+    <span className={`tier-badge tone-${m.tone}`} title={m.blurb}>
+      <span className="t-emoji" aria-hidden>
+        {m.emoji}
+      </span>
+      <span>{m.label}</span>
+      {typeof count === 'number' ? <span className="t-count">{count}</span> : null}
+    </span>
+  )
+}
+
+// 校正信任訊號
+function CorrectedMark({ stock }: { stock: Stock }) {
+  if (!stock.original_gemini_name || stock.original_gemini_name === stock.name)
+    return null
+  return (
+    <span
+      className="stock-fix"
+      title={`聽寫原文「${stock.original_gemini_name}」已校正`}
+      aria-label={`聽寫原文「${stock.original_gemini_name}」已校正`}
+    >
+      <span aria-hidden>✎</span> 校正
+    </span>
+  )
+}
+
+function StockGroupBlock({ group }: { group: StockGroup }) {
+  // 大類已在 major-band 點明，組標題去掉冗餘前綴
+  const dash = group.industry.indexOf('-')
+  const shortName =
+    dash > 0 ? group.industry.slice(dash + 1) : group.industry || '未分類'
+  return (
+    <div className="stock-group" id={`ind-${encodeURIComponent(group.industry)}`}>
+      <div className="stock-group-head">
+        <span className="stock-group-name">{shortName}</span>
+        <span className="stock-group-count">{group.rows.length} 檔</span>
+      </div>
+      {group.note ? <p className="stock-group-note">{group.note}</p> : null}
+      <div className="stock-rows">
+        {group.rows.map((row, i) => {
+          const s = row.stock
+          return (
+            <div className="stock-row" key={`${s.ticker || s.name}-${i}`}>
+              <TierBadge tier={displayTier(s.tier)} />
+              <span className="stock-id">
+                <span className="stock-name">{s.name}</span>
+                {hasValidTicker(s) ? (
+                  <span className="stock-ticker">{s.ticker}</span>
+                ) : (
+                  <span
+                    className="stock-ticker-empty"
+                    title="字典查無對應代號（可能是未上市／興櫃，或聽寫待確認）"
+                  >
+                    代號未對應
+                  </span>
+                )}
+                {row.flag ? (
+                  <span
+                    className="tier-flag"
+                    title={`此檔原列為強勢（${row.flag}），併入轉強供參考`}
+                    aria-label={`原列強勢，${row.flag}，併入轉強`}
+                  >
+                    <span aria-hidden>🔥</span>
+                    {row.flag}
+                  </span>
+                ) : null}
+                <CorrectedMark stock={s} />
+              </span>
+              {row.showMention && s.mention ? (
+                <p className="stock-mention">{s.mention}</p>
+              ) : null}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
 }
 
 export default async function ReportPage({
@@ -171,20 +152,42 @@ export default async function ReportPage({
   params: Promise<{ date: string }>
 }) {
   const { date } = await params
-  const [md, meta] = await Promise.all([
-    getReportMarkdown(date),
+  const [data, meta, md] = await Promise.all([
+    getReportData(date),
     getReportMeta(date),
+    getReportMarkdown(date),
   ])
-  if (md === null || meta === null) notFound()
+  if (data === null || meta === null) notFound()
 
-  const generatedShort = formatGenerated(meta.generated_at)
-  const industries = parseIndustries(md)
-  const components = buildComponents(industries)
-  const blogHtml = await markdownToBlogHtml(md)
-  const blogPlain = markdownPlainFallback(md)
+  const generatedShort = formatGenerated(data.generated_at)
+  // 盤勢概況拆「第一句＝重點」＋其餘脈絡，做出 Axios 式的一句話 takeaway
+  const ovMatch = data.market_overview.match(/^([\s\S]*?。)([\s\S]*)$/)
+  const ovLead = ovMatch ? ovMatch[1] : data.market_overview
+  const ovRest = ovMatch ? ovMatch[2].trim() : ''
+
+  // 雙核心：picks(轉強+低階) 才是選股；neutral(順帶提及) 與 pending(待校) 另列
+  const { picks, neutral, pending } = partitionStocks(data.stocks)
+  const counts = pickTierCounts(picks)
+  const groups = groupStocks(picks)
+  const presentTiers = PICK_TIER_ORDER.filter((t) => counts[t] > 0)
+
+  // TOC 只列「實際會渲染」的章節，避免空章節留死連結
+  const visibleSections = SECTIONS.filter((s) => {
+    if (s.id === 'key-points') return data.key_points.length > 0
+    if (s.id === 'industries') return data.industries.length > 0
+    return true
+  })
+
+  // markdown 僅供「複製到投資網誌」按鈕（CKEditor 安全 HTML）
+  // 先過語氣淨化，避免「講者」等外洩字眼被一起複製到網誌後台。
+  const safeMd = md ? sanitizeVoice(md) : null
+  const blogHtml = safeMd ? await markdownToBlogHtml(safeMd) : null
+  const blogPlain = safeMd ? markdownPlainFallback(safeMd) : null
+
+  let prevMajor: string | null = null
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-10" id="top">
+    <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-9" id="top">
       <nav className="mb-3">
         <Link
           href="/"
@@ -195,51 +198,226 @@ export default async function ReportPage({
         </Link>
       </nav>
 
-      <header className="mb-6 rounded-md border border-border bg-card px-4 py-3 shadow-paper">
-        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1.5">
-          <span className="inline-flex items-baseline gap-2">
-            <Radio
-              aria-hidden
-              className="h-4 w-4 shrink-0 translate-y-[2px] text-primary"
-            />
-            <span className="font-mono text-base font-semibold text-primary sm:text-lg">
-              {meta.date}
-            </span>
-            <span className="text-sm text-muted-foreground">
-              {meta.weekday}
-            </span>
-            <span className="font-mono text-sm text-muted-foreground">
-              {meta.time}
-            </span>
-          </span>
+      {/* ===== 報頭 ===== */}
+      <header className="masthead">
+        <span className="masthead-eyebrow">
+          <Radio className="h-3.5 w-3.5" aria-hidden />
+          春燕來了 · 每日盤勢摘要
+        </span>
+        <h1 className="masthead-title">
+          <span className="masthead-date">{meta.date}</span>
+          <span className="masthead-weekday">{meta.weekday}</span>
+          <span className="masthead-time">{meta.time}</span>
           {generatedShort ? (
-            <span className="ml-auto inline-flex items-baseline gap-1.5 text-xs text-muted-foreground">
-              <FileText
-                aria-hidden
-                className="h-3 w-3 shrink-0 translate-y-[1px]"
-              />
-              <span>轉錄</span>
-              <span className="font-mono">{generatedShort}</span>
+            <span className="masthead-meta">
+              <FileText className="h-3 w-3" aria-hidden />
+              轉錄 {generatedShort}
             </span>
           ) : null}
-        </div>
+        </h1>
       </header>
 
-      <div className="mb-6 flex justify-end">
-        <CopyBlogButton html={blogHtml} plainFallback={blogPlain} />
+      {/* ===== 一覽統計列 ===== */}
+      <div className="stat-strip">
+        <span className="stat-lead">
+          選股 <b>{picks.length}</b>
+        </span>
+        {presentTiers.map((t) => (
+          <TierBadge key={t} tier={t} count={counts[t]} />
+        ))}
+        <span className="stat-sep" />
+        <span className="stat-lead">
+          產業 <b>{data.industries.length}</b>
+        </span>
+        {neutral.length > 0 ? (
+          <span className="stat-muted">順帶提及 {neutral.length}</span>
+        ) : null}
+        {pending.length > 0 ? (
+          <span className="stat-muted">待校 {pending.length}</span>
+        ) : null}
       </div>
 
-      <TableOfContents sections={SECTIONS} />
+      <div className="mb-6 flex justify-end">
+        {blogHtml && blogPlain ? (
+          <CopyBlogButton html={blogHtml} plainFallback={blogPlain} />
+        ) : null}
+      </div>
 
-      <article className="markdown-body">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw]}
-          components={components}
-        >
-          {md}
-        </ReactMarkdown>
-      </article>
+      <TableOfContents sections={visibleSections} />
+
+      {/* ===== 盤勢概況 ===== */}
+      <section className="report-section" id="overview">
+        <h2>
+          <span className="sec-no">01</span>盤勢概況
+        </h2>
+        <div className="lead measure">
+          <strong className="lead-tldr">{ovLead}</strong>
+          {ovRest ? <span className="lead-rest">{ovRest}</span> : null}
+        </div>
+      </section>
+
+      {/* ===== 重點 ===== */}
+      {data.key_points.length > 0 ? (
+        <section className="report-section" id="key-points">
+          <h2>
+            <span className="sec-no">02</span>重點
+          </h2>
+          <ul className="kp-list measure">
+            {data.key_points.map((raw, i) => {
+              const kp = parseKeyPoint(raw)
+              return (
+                <li className="kp-item" key={i}>
+                  <span>
+                    {kp.lead ? (
+                      <>
+                        <b className="kp-lead">{kp.lead}</b>
+                        <span className="kp-sep"> — </span>
+                      </>
+                    ) : null}
+                    {kp.body}
+                  </span>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+      ) : null}
+
+      {/* ===== 產業觀點 ===== */}
+      {data.industries.length > 0 ? (
+        <section className="report-section" id="industries">
+          <h2>
+            <span className="sec-no">03</span>產業觀點
+            <span className="sec-hint">
+              春燕當日談的題材 · {data.industries.length} 個
+            </span>
+          </h2>
+          <div className="industry-grid">
+            {data.industries.map((ind, i) => (
+              <div className="industry-view" key={i}>
+                <div className="industry-view-head">
+                  <span className="industry-view-name">{ind.name}</span>
+                  <span
+                    className={`sentiment sentiment-${sentimentTone(ind.sentiment)}`}
+                  >
+                    {ind.sentiment}
+                  </span>
+                </div>
+                <p className="industry-view-summary">{ind.summary}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {/* ===== 個股清單（轉強 / 低階 雙核心）===== */}
+      <section className="report-section" id="stocks">
+        <h2>
+          <span className="sec-no">04</span>個股清單
+          <span className="sec-hint">轉強／低階 · 依類股分組 · {picks.length} 檔</span>
+        </h2>
+
+        <div className="tier-legend">
+          {PICK_TIER_ORDER.map((t) => {
+            const m = DISPLAY_TIER_META[t]
+            return (
+              <span className="tier-legend-item" key={t}>
+                <span aria-hidden>{m.emoji}</span>
+                <span className="lg-name">{m.label}</span>
+                <span>{m.blurb}</span>
+              </span>
+            )
+          })}
+          <span className="tier-legend-item">
+            <span aria-hidden>🔥</span>
+            <span className="lg-name">漲停／已走強</span>
+            <span>原列強勢，已併入轉強</span>
+          </span>
+        </div>
+
+        {groups.length === 0 ? (
+          <p className="aside-empty">本篇沒有明確的轉強／低階選股。</p>
+        ) : (
+          groups.map((g) => {
+            const showBand = g.major !== prevMajor
+            prevMajor = g.major
+            return (
+              <div key={g.industry}>
+                {showBand ? <div className="major-band">{g.major}</div> : null}
+                <StockGroupBlock group={g} />
+              </div>
+            )
+          })
+        )}
+
+        {/* 順帶提及（中性）：春燕有提到但沒明確表態，不算選股 */}
+        {neutral.length > 0 ? (
+          <details className="aside-section">
+            <summary>
+              春燕順帶提及 · 未明確表態
+              <span className="aside-count">{neutral.length}</span>
+            </summary>
+            <p className="aside-hint">
+              這些只是直播中帶到、沒被歸進轉強／低階，部分春燕其實不看好（看 view）。
+            </p>
+            <div className="aside-rows">
+              {neutral.map((s, i) => (
+                <div className="aside-row" key={`${s.ticker || s.name}-${i}`}>
+                  <span className="aside-id">
+                    <span className="stock-name">{s.name}</span>
+                    {hasValidTicker(s) ? (
+                      <span className="stock-ticker">{s.ticker}</span>
+                    ) : (
+                      <span className="stock-ticker-empty">代號未對應</span>
+                    )}
+                    {s.view ? (
+                      <span
+                        className={`sentiment sentiment-${sentimentTone(s.view)}`}
+                      >
+                        {s.view}
+                      </span>
+                    ) : null}
+                    <CorrectedMark stock={s} />
+                  </span>
+                  {s.mention ? (
+                    <p className="stock-mention">{s.mention}</p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </details>
+        ) : null}
+
+        {/* 待校：字典查無、多半是聽寫雜訊，獨立收納不污染選股 */}
+        {pending.length > 0 ? (
+          <details className="aside-section aside-pending">
+            <summary>
+              待校對 · 無對應代號
+              <span className="aside-count">{pending.length}</span>
+            </summary>
+            <p className="aside-hint">
+              比對不到台股代號，多為大陸口音同音字誤聽，少數可能是未上市／興櫃。已從選股移出，待人工確認。
+            </p>
+            <div className="aside-rows">
+              {pending.map((s, i) => (
+                <div
+                  className="aside-row is-pending"
+                  key={`${s.name}-${i}`}
+                >
+                  <span className="aside-id">
+                    <span className="stock-name">{s.name}</span>
+                    <span className="stock-pending">待校</span>
+                    <CorrectedMark stock={s} />
+                  </span>
+                  {s.mention ? (
+                    <p className="stock-mention">{s.mention}</p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </details>
+        ) : null}
+      </section>
 
       <footer className="mt-16 border-t border-border pt-5 text-center">
         <Link

@@ -1,115 +1,161 @@
 import Link from 'next/link'
-import { Crown, Flame, Zap, Sprout, Eye, ArrowRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { getReports } from './lib/reports'
-import type { ReportSummary, TierCounts } from './lib/reports'
+import type { ReportSummary } from './lib/reports'
+import {
+  getReportData,
+  partitionStocks,
+  pickTierCounts,
+  PICK_TIER_ORDER,
+  DISPLAY_TIER_META,
+  type DisplayTier,
+} from './lib/report-data'
 
-type TierKey = keyof TierCounts
+// 首頁卡片：用「精確分區」而非 manifest 原始階數，確保與報告頁的「選股 N」一致
+type ArchiveItem = {
+  r: ReportSummary
+  pickTotal: number
+  counts: Record<DisplayTier, number>
+  neutral: number
+  pending: number
+}
 
-const TIERS: Array<{
-  key: TierKey
-  Icon: typeof Crown
-  tone: 'gold' | 'orange' | 'amber' | 'moss' | 'smoke'
-}> = [
-  { key: '龍頭', Icon: Crown, tone: 'gold' },
-  { key: '強勢', Icon: Flame, tone: 'orange' },
-  { key: '轉強', Icon: Zap, tone: 'amber' },
-  { key: '低階', Icon: Sprout, tone: 'moss' },
-  { key: '中性', Icon: Eye, tone: 'smoke' },
-]
+function yearMonth(date: string): string {
+  const m = date.match(/^(\d{4})-(\d{2})/)
+  if (!m) return date
+  return `${m[1]} 年 ${Number(m[2])} 月`
+}
 
 export default async function Home() {
   const reports = await getReports()
 
+  // 逐篇讀 JSON 精確分區（SSG，14 篇成本可忽略），與 /reports/[date] 同一套 partitionStocks
+  const items: ArchiveItem[] = await Promise.all(
+    reports.map(async (r) => {
+      const data = await getReportData(r.id)
+      const part = data
+        ? partitionStocks(data.stocks)
+        : { picks: [], neutral: [], pending: [] }
+      return {
+        r,
+        pickTotal: part.picks.length,
+        counts: pickTierCounts(part.picks),
+        neutral: part.neutral.length,
+        pending: part.pending.length,
+      }
+    }),
+  )
+
+  // 依年月分組（items 已是新到舊）
+  const groups: Array<{ label: string; items: ArchiveItem[] }> = []
+  for (const it of items) {
+    const label = yearMonth(it.r.date)
+    const last = groups[groups.length - 1]
+    if (last && last.label === label) last.items.push(it)
+    else groups.push({ label, items: [it] })
+  }
+
   return (
-    <main className="mx-auto max-w-3xl px-6 py-10 md:py-14">
-      <header className="mb-10 border-b border-primary/40 pb-6">
-        <h1 className="font-serif text-3xl font-bold tracking-tight text-brand-brown md:text-4xl">
-          春燕來了 · 歷史報告
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground md:text-base">
-          每日盤勢摘要時序歸檔
+    <main className="mx-auto max-w-2xl px-5 py-10 md:py-14">
+      <header className="masthead">
+        <span className="masthead-eyebrow">春燕來了</span>
+        <div className="masthead-title">
+          <h1 className="font-serif text-3xl font-bold tracking-tight text-brand-brown md:text-4xl">
+            每日盤勢摘要 · 歷史報告
+          </h1>
+        </div>
+        <p className="mt-2 text-sm text-muted-foreground">
+          每日直播的盤勢與選股，逐日結構化歸檔。共{' '}
+          <b className="tnum font-semibold text-foreground">{reports.length}</b>{' '}
+          篇。
         </p>
       </header>
 
       {reports.length === 0 ? (
         <EmptyState />
       ) : (
-        <ul className="grid gap-4">
-          {reports.map((r) => (
-            <ReportCard key={r.id} report={r} />
+        <div>
+          {groups.map((g) => (
+            <section key={g.label}>
+              <div className="archive-month">{g.label}</div>
+              <ul className="grid gap-3">
+                {g.items.map((it) => (
+                  <li key={it.r.id}>
+                    <Link
+                      href={`/reports/${it.r.id}`}
+                      className="archive-row block"
+                    >
+                      <ArchiveRow item={it} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
           ))}
-        </ul>
+        </div>
       )}
 
       <footer className="mt-16 border-t border-border pt-5 text-center text-xs text-muted-foreground">
-        共 {reports.length} 篇報告 · 自動化分析 · 內部審閱用
+        自動化轉錄 · 結構化分析 · 內部審閱用
       </footer>
     </main>
   )
 }
 
-function ReportCard({ report: r }: { report: ReportSummary }) {
+function TierChip({ tier, count }: { tier: DisplayTier; count: number }) {
+  const m = DISPLAY_TIER_META[tier]
   return (
-    <li>
-      <Link
-        href={`/reports/${r.id}`}
-        className="group block focus-visible:outline-none"
-      >
-        <Card className="group-hover:border-primary/60 group-hover:shadow-paper-lifted group-focus-visible:ring-2 group-focus-visible:ring-ring group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background">
-          <CardContent className="p-4 sm:p-5 md:p-6">
-            <div className="mb-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="font-mono text-base font-semibold text-primary sm:text-lg">
-                {r.date}
-              </span>
-              <span className="text-sm text-muted-foreground">{r.weekday}</span>
-              <span className="font-mono text-sm text-muted-foreground">
-                {r.time}
-              </span>
-              <ArrowRight
-                aria-hidden
-                className="ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary"
-              />
-            </div>
+    <span
+      className={`tier-badge tone-${m.tone}`}
+      title={`${m.label}：${m.blurb}`}
+      aria-label={`${m.label} ${count} 檔`}
+    >
+      <span className="t-emoji" aria-hidden>
+        {m.emoji}
+      </span>
+      <span>{m.label}</span>
+      <span className="t-count">{count}</span>
+    </span>
+  )
+}
 
-            <div className="mb-3 text-sm text-muted-foreground">
-              <strong className="font-semibold text-foreground">
-                {r.stock_count}
-              </strong>{' '}
-              檔
-              <span className="mx-2 text-border">·</span>
-              <strong className="font-semibold text-foreground">
-                {r.industry_count}
-              </strong>{' '}
-              產業
-            </div>
+function ArchiveRow({ item }: { item: ArchiveItem }) {
+  const { r, counts, pickTotal, neutral, pending } = item
+  const presentTiers = PICK_TIER_ORDER.filter((t) => counts[t] > 0)
+  return (
+    <>
+      <div className="archive-row-top">
+        <span className="archive-date">{r.date}</span>
+        <span className="archive-weekday">{r.weekday}</span>
+        <span className="archive-time">{r.time}</span>
+        <span className="archive-counts">
+          選股 <b>{pickTotal}</b> · <b>{r.industry_count}</b> 產業
+        </span>
+      </div>
 
-            <div className="mb-3 flex flex-wrap gap-1.5">
-              {TIERS.map(({ key, Icon, tone }) => (
-                <Badge key={key} tone={tone} title={key}>
-                  <Icon aria-hidden className="h-3 w-3" />
-                  {r.tiers[key]}
-                </Badge>
-              ))}
-            </div>
+      {presentTiers.length > 0 ? (
+        <div className="archive-tiers">
+          {presentTiers.map((t) => (
+            <TierChip key={t} tier={t} count={counts[t]} />
+          ))}
+          {neutral > 0 ? (
+            <span className="archive-aside-count">順帶 {neutral}</span>
+          ) : null}
+          {pending > 0 ? (
+            <span className="archive-aside-count">待校 {pending}</span>
+          ) : null}
+        </div>
+      ) : null}
 
-            {r.teaser ? (
-              <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-                {r.teaser}
-              </p>
-            ) : null}
+      {r.teaser ? <p className="archive-teaser">{r.teaser}</p> : null}
 
-            {r.top_industries.length > 0 ? (
-              <p className="mt-2 text-xs text-muted-foreground">
-                <span className="font-semibold text-foreground">主要產業：</span>
-                {r.top_industries.join(' / ')}
-              </p>
-            ) : null}
-          </CardContent>
-        </Card>
-      </Link>
-    </li>
+      {r.top_industries.length > 0 ? (
+        <p className="archive-inds">
+          <b>主要類股：</b>
+          {r.top_industries.join('、')}
+        </p>
+      ) : null}
+    </>
   )
 }
 

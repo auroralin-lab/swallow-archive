@@ -15,11 +15,12 @@
   --brand-brown: #7a4220;
   --brand-cream: #f5e6d0;
 
-  --tier-gold: #b8841b;
-  --tier-orange: #d9572d;
-  --tier-amber: #b5651d;
-  --tier-moss: #5c7a4a;
-  --tier-smoke: #8a7f73;
+  /* 階層色：在 13% 淡底藥丸上需達 WCAG AA 4.5:1，故取較深的暖色（仍維持暖→冷色階） */
+  --tier-gold: #8a6310;
+  --tier-orange: #b8431f;
+  --tier-amber: #9a5417;
+  --tier-moss: #46603a;
+  --tier-smoke: #6b6258;
 
   --shadow-paper: 0 1px 2px rgb(122 66 32 / 0.06), 0 1px 3px rgb(122 66 32 / 0.05);
   --shadow-paper-lifted: 0 2px 8px rgb(122 66 32 / 0.08), 0 6px 16px rgb(122 66 32 / 0.06);
@@ -41,9 +42,10 @@
     --brand-brown: #c8956a;
     --brand-cream: #f5e6d0;
 
+    /* 深色階層色：在深底 13% 藥丸上需達 WCAG AA 4.5:1（amber=轉強最常出現，orange 兼 flag/sentiment-pos）*/
     --tier-gold: #d4a04a;
-    --tier-orange: #e26b3a;
-    --tier-amber: #d08440;
+    --tier-orange: #ee8253;
+    --tier-amber: #e0a35e;
     --tier-moss: #8aa876;
     --tier-smoke: #a89b8c;
 
@@ -463,4 +465,696 @@ html {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* =====================================================================
+   v2 結構化報告渲染（直接吃 JSON，不再 regex 解 markdown）
+   設計準則：中文閱讀寬度 ~38–40 字、payload(名稱/代號/階層)為視覺主體、
+   數字一律 tabular-nums、階層用「暖→冷」色階三重編碼（emoji+色+字）。
+   ===================================================================== */
+
+/* 中文閱讀寬度：1em ≈ 1 漢字寬，~40 字 → 約 40em */
+.measure {
+  max-width: 40em;
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* ----- 報頭 masthead ----- */
+.masthead {
+  margin: 0 0 1.25rem;
+  padding: 0 0 1rem;
+  border-bottom: 2px solid var(--primary);
+}
+.masthead-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.06em;
+}
+.masthead-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.4rem;
+}
+.masthead-date {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--brand-brown);
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.masthead-weekday {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+.masthead-time {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--muted-fg);
+  font-variant-numeric: tabular-nums;
+}
+.masthead-meta {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  color: var(--muted-fg);
+}
+
+/* ----- 一覽統計列 stat strip ----- */
+.stat-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 1.5rem;
+}
+.stat-lead {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  font-size: 0.84rem;
+  color: var(--muted-fg);
+}
+.stat-lead b {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--brand-brown);
+  font-variant-numeric: tabular-nums;
+}
+.stat-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+  margin: 0 2px;
+}
+
+/* ----- 階層徽章 tier badge（emoji + 色 + 字 三重編碼）----- */
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  padding: 2px 9px 2px 7px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.45;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.tier-badge .t-emoji {
+  font-size: 0.92em;
+  line-height: 1;
+}
+.tier-badge .t-count {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  margin-left: 1px;
+}
+.tone-gold {
+  background: color-mix(in srgb, var(--tier-gold) 13%, var(--card));
+  color: var(--tier-gold);
+  border-color: color-mix(in srgb, var(--tier-gold) 32%, transparent);
+}
+.tone-orange {
+  background: color-mix(in srgb, var(--tier-orange) 13%, var(--card));
+  color: var(--tier-orange);
+  border-color: color-mix(in srgb, var(--tier-orange) 32%, transparent);
+}
+.tone-amber {
+  background: color-mix(in srgb, var(--tier-amber) 13%, var(--card));
+  color: var(--tier-amber);
+  border-color: color-mix(in srgb, var(--tier-amber) 32%, transparent);
+}
+.tone-moss {
+  background: color-mix(in srgb, var(--tier-moss) 13%, var(--card));
+  color: var(--tier-moss);
+  border-color: color-mix(in srgb, var(--tier-moss) 32%, transparent);
+}
+.tone-smoke {
+  background: color-mix(in srgb, var(--tier-smoke) 13%, var(--card));
+  color: var(--tier-smoke);
+  border-color: color-mix(in srgb, var(--tier-smoke) 32%, transparent);
+}
+
+/* ----- 階層圖例 legend ----- */
+.tier-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 0.5rem 0 1.5rem;
+  padding: 11px 14px;
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.tier-legend-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--muted-fg);
+}
+.tier-legend-item .lg-name {
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* ----- 章節標題 ----- */
+.report-section {
+  margin: 2.2rem 0 0;
+  scroll-margin-top: 4rem;
+}
+.report-section > h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--brand-brown);
+  margin: 0 0 0.9rem;
+  text-wrap: balance;
+}
+.report-section > h2 .sec-no {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted-fg);
+  background: var(--muted);
+  border-radius: 5px;
+  padding: 1px 7px;
+  align-self: center;
+}
+.report-section > h2 .sec-hint {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 400;
+  color: var(--muted-fg);
+  letter-spacing: 0.02em;
+}
+
+/* ----- 盤勢概況 lead 區塊 ----- */
+.lead {
+  border-left: 3px solid var(--primary);
+  padding: 0.15rem 0 0.15rem 1.1rem;
+  margin: 0;
+  font-size: 1.14rem;
+  line-height: 1.85;
+  color: var(--fg);
+  text-align: justify;
+  text-justify: inter-character;
+}
+.lead-tldr {
+  display: block;
+  font-weight: 700;
+  color: var(--brand-brown);
+  margin-bottom: 0.45em;
+}
+.lead-rest {
+  color: var(--muted-fg);
+  font-size: 0.96em;
+}
+
+/* ----- 重點 key points ----- */
+.kp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+.kp-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem;
+  font-size: 1.02rem;
+  line-height: 1.72;
+}
+.kp-item::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin-top: 0.62em;
+  border-radius: 999px;
+  background: var(--primary);
+  flex: none;
+}
+.kp-lead {
+  font-weight: 600;
+  color: var(--brand-brown);
+}
+.kp-sep {
+  color: var(--muted-fg);
+}
+
+/* ----- 產業觀點 industries ----- */
+.industry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 0.7rem;
+}
+.industry-view {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  padding: 0.85rem 1rem;
+  box-shadow: var(--shadow-paper);
+}
+.industry-view-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.35rem;
+}
+.industry-view-name {
+  font-weight: 700;
+  color: var(--brand-brown);
+  font-size: 1.02rem;
+}
+.industry-view-summary {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.72;
+  color: var(--muted-fg);
+  max-width: 40em;
+}
+.sentiment {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.sentiment-pos {
+  background: color-mix(in srgb, var(--tier-orange) 12%, var(--card));
+  color: var(--tier-orange);
+  border-color: color-mix(in srgb, var(--tier-orange) 30%, transparent);
+}
+.sentiment-mid {
+  background: color-mix(in srgb, var(--tier-smoke) 14%, var(--card));
+  color: var(--tier-smoke);
+  border-color: color-mix(in srgb, var(--tier-smoke) 28%, transparent);
+}
+.sentiment-neg {
+  background: color-mix(in srgb, var(--tier-moss) 13%, var(--card));
+  color: var(--tier-moss);
+  border-color: color-mix(in srgb, var(--tier-moss) 30%, transparent);
+}
+
+/* ----- 個股清單 stock list ----- */
+.major-band {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.6rem 0 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--brand-brown);
+}
+.major-band::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.stock-group {
+  margin: 0 0 0.4rem;
+  scroll-margin-top: 4rem;
+}
+.stock-group-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0.15rem;
+}
+.stock-group-name {
+  font-size: 1.06rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+.stock-group-count {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted-fg);
+  font-variant-numeric: tabular-nums;
+}
+.stock-group-note {
+  margin: 0.25rem 0 0.4rem;
+  padding: 7px 11px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--muted) 42%, transparent);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted-fg);
+}
+.stock-rows {
+  display: grid;
+}
+.stock-row {
+  display: grid;
+  grid-template-columns: 5.25rem 1fr;
+  gap: 0.35rem 0.85rem;
+  align-items: baseline;
+  padding: 0.6rem 0.25rem;
+  border-top: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+}
+.stock-row:first-child {
+  border-top: 0;
+}
+.stock-row .tier-badge {
+  justify-self: start;
+}
+.stock-id {
+  min-width: 0;
+}
+.stock-name {
+  font-weight: 600;
+  color: var(--fg);
+  font-size: 1.01rem;
+}
+.stock-ticker {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--muted-fg);
+  font-variant-numeric: tabular-nums;
+  margin-left: 7px;
+}
+.stock-ticker-empty {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted-fg);
+  margin-left: 7px;
+  opacity: 0.7;
+}
+.stock-fix {
+  font-size: 0.72rem;
+  color: var(--muted-fg);
+  margin-left: 7px;
+  opacity: 0.75;
+}
+.stock-mention {
+  grid-column: 2;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.62;
+  color: var(--muted-fg);
+  max-width: 42em;
+}
+/* 待校對：字典查無、可能是聽寫雜訊 */
+.stock-pending {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--tier-smoke);
+  background: color-mix(in srgb, var(--tier-smoke) 12%, var(--card));
+  border: 1px dashed color-mix(in srgb, var(--tier-smoke) 40%, transparent);
+  border-radius: 5px;
+  padding: 0 5px;
+  margin-left: 7px;
+}
+.is-pending .stock-name {
+  color: var(--muted-fg);
+}
+
+/* 漲停／已走強小旗（原強勢併入轉強後標記） */
+.tier-flag {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--tier-orange);
+  background: color-mix(in srgb, var(--tier-orange) 12%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--tier-orange) 30%, transparent);
+  border-radius: 5px;
+  padding: 0 5px;
+  margin-left: 7px;
+  white-space: nowrap;
+}
+
+/* stat strip 的次要計數（順帶提及 / 待校） */
+.stat-muted {
+  font-size: 0.8rem;
+  color: var(--muted-fg);
+}
+.stat-muted::before {
+  content: '·';
+  margin-right: 6px;
+  color: var(--border);
+}
+
+/* 個股清單為空的提示 */
+.aside-empty {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  color: var(--muted-fg);
+}
+
+/* ===== 摺疊次要區塊：順帶提及 / 待校 ===== */
+.aside-section {
+  margin-top: 1.8rem;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--muted) 28%, transparent);
+}
+.aside-section > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0.95rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--brand-brown);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.aside-section > summary::-webkit-details-marker {
+  display: none;
+}
+.aside-section > summary::before {
+  content: '▸';
+  color: var(--muted-fg);
+  font-size: 0.85em;
+  transition: transform 0.15s ease;
+}
+.aside-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+.aside-section > summary:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+.aside-count {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted-fg);
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+.aside-hint {
+  margin: 0;
+  padding: 0 0.95rem 0.4rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--muted-fg);
+}
+.aside-rows {
+  padding: 0.2rem 0.95rem 0.8rem;
+}
+.aside-row {
+  padding: 0.55rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+.aside-row:first-child {
+  border-top: 0;
+}
+.aside-id {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 2px;
+}
+.aside-row .stock-mention {
+  grid-column: auto;
+  margin-top: 2px;
+}
+.aside-pending {
+  background: color-mix(in srgb, var(--tier-smoke) 8%, transparent);
+}
+
+/* 長名稱（含聽寫幻覺）不要撐爆排版 */
+.stock-name {
+  overflow-wrap: anywhere;
+}
+
+/* 手機（<=640）：把階層徽章移到名稱同一行上方，摘要往下換行 */
+@media (max-width: 640px) {
+  .stock-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  .stock-mention {
+    grid-column: 1;
+  }
+  .masthead-date {
+    font-size: 1.5rem;
+  }
+  .lead {
+    font-size: 1.06rem;
+  }
+  .stat-strip {
+    gap: 5px;
+  }
+  .stat-sep {
+    display: none;
+  }
+}
+
+/* =====================================================================
+   首頁歷史索引（時序歸檔）
+   ===================================================================== */
+.archive-month {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.6rem 0 0.5rem;
+  padding: 0.4rem 0;
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 70%,
+    color-mix(in srgb, var(--bg) 0%, transparent)
+  );
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--brand-brown);
+  font-variant-numeric: tabular-nums;
+}
+.archive-month::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.archive-row {
+  display: block;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  box-shadow: var(--shadow-paper);
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.08s ease;
+}
+.archive-row:hover {
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+  box-shadow: var(--shadow-paper-lifted);
+}
+.archive-row:active {
+  transform: translateY(1px);
+}
+.archive-row:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.archive-row-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.6rem;
+  margin-bottom: 0.5rem;
+}
+.archive-date {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--brand-brown);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+.archive-weekday {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+.archive-time {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted-fg);
+  font-variant-numeric: tabular-nums;
+}
+.archive-counts {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--muted-fg);
+}
+.archive-counts b {
+  font-family: var(--font-mono);
+  color: var(--fg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.archive-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 0.5rem;
+}
+.archive-aside-count {
+  font-size: 0.76rem;
+  color: var(--muted-fg);
+  margin-left: 2px;
+}
+.archive-teaser {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.68;
+  color: var(--muted-fg);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.archive-inds {
+  margin: 0.45rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted-fg);
+}
+.archive-inds b {
+  color: var(--fg);
+  font-weight: 600;
 }
