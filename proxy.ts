@@ -11,8 +11,10 @@ export default function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // ARCHIVE_PASSWORD 未設時必須鎖死（fail-closed）：否則 undefined === undefined
+  // 會讓漏設環境變數的環境整站（含全部報告 JSON）無聲公開
   const session = request.cookies.get(SESSION_COOKIE)?.value
-  if (session === process.env.ARCHIVE_PASSWORD) {
+  if (process.env.ARCHIVE_PASSWORD && session === process.env.ARCHIVE_PASSWORD) {
     return NextResponse.next()
   }
 

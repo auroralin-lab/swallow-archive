@@ -221,8 +221,19 @@ export function groupStocks(picks: Stock[]): StockGroup[] {
   }
   const pre: Pre[] = []
   for (const [industry, arr] of byIndustry) {
+    // 同句聚攏：共用同一句 mention 的列要緊貼「顯示那句」的列正下方，
+    // 否則去重後的留白列會被讀成「這檔沒說明」或誤掛到上一句。
+    // 排序鍵 = [tier 檔次, 該（tier|句）首次出現位置]；sort 穩定，同鍵保原序。
+    const mentionKey = (s: Stock) => `${displayTier(s.tier)}|${s.mention.trim()}`
+    const firstSeen = new Map<string, number>()
+    arr.forEach((s, i) => {
+      const k = mentionKey(s)
+      if (!firstSeen.has(k)) firstSeen.set(k, i)
+    })
     const sorted = [...arr].sort(
-      (a, b) => PICK_RANK[displayTier(a.tier)] - PICK_RANK[displayTier(b.tier)],
+      (a, b) =>
+        PICK_RANK[displayTier(a.tier)] - PICK_RANK[displayTier(b.tier)] ||
+        (firstSeen.get(mentionKey(a)) ?? 0) - (firstSeen.get(mentionKey(b)) ?? 0),
     )
     const mentions = new Set(sorted.map((s) => s.mention.trim()).filter(Boolean))
     const shared =
@@ -260,7 +271,9 @@ export function groupStocks(picks: Stock[]): StockGroup[] {
         })),
       })
     } else {
-      // 組內各列：同一句只在首次出現顯示
+      // 組內各列：同一句只在首次出現顯示。
+      // 去重 key 帶 tier——同句跨檔次要各顯示一次，否則轉強列會吃掉低階列的說明
+      // （例：今皓[轉強]與矽瑪/映興[低階]共用「連接線材族群的低階股」）。
       const seen = new Set<string>()
       groups.push({
         industry: p.industry,
@@ -268,10 +281,11 @@ export function groupStocks(picks: Stock[]): StockGroup[] {
         note: null,
         rows: p.stocks.map((stock) => {
           const m = stock.mention.trim()
+          const k = `${displayTier(stock.tier)}|${m}`
           let showMention = false
-          if (m && !seen.has(m)) {
+          if (m && !seen.has(k)) {
             showMention = true
-            seen.add(m)
+            seen.add(k)
           }
           return { stock, showMention, flag: strongFlag(stock) }
         }),

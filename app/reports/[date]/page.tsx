@@ -8,7 +8,6 @@ import {
   partitionStocks,
   pickTierCounts,
   sentimentTone,
-  sanitizeVoice,
   parseKeyPoint,
   displayTier,
   hasValidTicker,
@@ -18,12 +17,8 @@ import {
   type Stock,
   type StockGroup,
 } from '@/app/lib/report-data'
-import {
-  getReportIds,
-  getReportMarkdown,
-  getReportMeta,
-} from '@/app/lib/reports'
-import { markdownPlainFallback, markdownToBlogHtml } from '@/app/lib/blog-html'
+import { getReportIds, getReportMeta } from '@/app/lib/reports'
+import { buildBlogHtml, buildBlogPlain } from '@/app/lib/blog-html'
 import { TableOfContents, type TocSection } from '@/components/toc'
 import { CopyBlogButton } from './copy-blog-button'
 
@@ -152,10 +147,9 @@ export default async function ReportPage({
   params: Promise<{ date: string }>
 }) {
   const { date } = await params
-  const [data, meta, md] = await Promise.all([
+  const [data, meta] = await Promise.all([
     getReportData(date),
     getReportMeta(date),
-    getReportMarkdown(date),
   ])
   if (data === null || meta === null) notFound()
 
@@ -178,11 +172,10 @@ export default async function ReportPage({
     return true
   })
 
-  // markdown 僅供「複製到投資網誌」按鈕（CKEditor 安全 HTML）
-  // 先過語氣淨化，避免「講者」等外洩字眼被一起複製到網誌後台。
-  const safeMd = md ? sanitizeVoice(md) : null
-  const blogHtml = safeMd ? await markdownToBlogHtml(safeMd) : null
-  const blogPlain = safeMd ? markdownPlainFallback(safeMd) : null
+  // 「複製到投資網誌」按鈕：用本頁同一份 JSON、同一套整理邏輯組 HTML（CKEditor 安全），
+  // 確保複製出去的內容與畫面一致（getReportData 已做過語氣淨化）。
+  const blogHtml = buildBlogHtml(data)
+  const blogPlain = buildBlogPlain(data)
 
   let prevMajor: string | null = null
 
