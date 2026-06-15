@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Radio, FileText } from 'lucide-react'
+import { ArrowLeft, Radio } from 'lucide-react'
 import {
   getReportData,
   groupStocks,
@@ -50,14 +50,6 @@ export async function generateMetadata({
     title: `${meta.date}（${meta.weekday}）· 春燕來了`,
     description: desc,
   }
-}
-
-function formatGenerated(iso: string | null): string | null {
-  if (!iso) return null
-  const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/)
-  if (!m) return iso
-  const [, , mo, d, hh, mm] = m
-  return `${mo}-${d} ${hh}:${mm}`
 }
 
 function TierBadge({ tier, count }: { tier: DisplayTier; count?: number }) {
@@ -153,7 +145,6 @@ export default async function ReportPage({
   ])
   if (data === null || meta === null) notFound()
 
-  const generatedShort = formatGenerated(data.generated_at)
   // 盤勢概況拆「第一句＝重點」＋其餘脈絡，做出 Axios 式的一句話 takeaway
   const ovMatch = data.market_overview.match(/^([\s\S]*?。)([\s\S]*)$/)
   const ovLead = ovMatch ? ovMatch[1] : data.market_overview
@@ -201,12 +192,6 @@ export default async function ReportPage({
           <span className="masthead-date">{meta.date}</span>
           <span className="masthead-weekday">{meta.weekday}</span>
           <span className="masthead-time">{meta.time}</span>
-          {generatedShort ? (
-            <span className="masthead-meta">
-              <FileText className="h-3 w-3" aria-hidden />
-              轉錄 {generatedShort}
-            </span>
-          ) : null}
         </h1>
       </header>
 
