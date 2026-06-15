@@ -66,13 +66,19 @@ export async function getReportMeta(id: string): Promise<ReportMeta | null> {
   // JS getDay: 0=Sunday; 我們要 0=Monday、6=Sunday，所以 (getDay+6) % 7
   const jsDay = new Date(`${date}T00:00:00`).getDay()
   const weekday = WEEKDAYS_TW[(jsDay + 6) % 7]
-  const time = `${hh}:${mm}`
+  // 顯示時間預設用檔名 HHMM；若 json 有 upload_time（真實上傳時間）則優先用它。
+  // 只取時分，日期/星期仍由檔名 id 決定（跨午夜上傳不會把日期帶歪）。
+  let time = `${hh}:${mm}`
 
   let generated_at: string | null = null
   try {
     const raw = await fs.readFile(path.join(REPORTS_DIR, `${id}.json`), 'utf-8')
     const data = JSON.parse(raw)
     generated_at = typeof data.generated_at === 'string' ? data.generated_at : null
+    if (typeof data.upload_time === 'string') {
+      const u = data.upload_time.match(/^\d{4}-\d{2}-\d{2}T(\d{2}):(\d{2})/)
+      if (u) time = `${u[1]}:${u[2]}`
+    }
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code !== 'ENOENT') throw err
   }
